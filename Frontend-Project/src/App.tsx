@@ -1,9 +1,10 @@
-
+import Tablero from "./components/Tablero"
 
 function App() {
 
   return (
-    <div className="bg-slate-400 h-screen">
+    <div className="bg-slate-400 min-h-screen">
+      <Tablero />
       <main className="container mx-auto h-full p-4">
           <section className="grid grid-cols-2 gap-4 h-full">
             <div>
