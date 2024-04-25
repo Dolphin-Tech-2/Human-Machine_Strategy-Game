@@ -1,10 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
+import Fichas from "../utils/fichas.ts";
 
 export default function Tablero() {
   const [numCuadros, setNumCuadros] = useState(8);
-  const [hoveredSquare, setHoveredSquare] = useState<{ row: number; col: number } | null>(null);
-  const [listMarkedSquare, setListMarkedSquare] = useState<{ row: number; col: number }[] | null>(null);
+  const [currentSquare, setCurrentSquare] = useState<
+    { row: number; col: number }[]
+  >([]);
+  const [fichaSelected, setFichaSelected] = useState<
+    "A" | "B" | "C" | "D" | "E"
+  >("A");
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const tableroHover = useRef<Array<Array<number>>>(
+    Array(numCuadros).fill(Array(numCuadros).fill(0))
+  );
+  const tableroClicked = useRef<Array<Array<number>>>(
+    Array(numCuadros).fill(Array(numCuadros).fill(0))
+  );
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -14,7 +25,7 @@ export default function Tablero() {
       const canvasSize = Math.min(window.innerWidth, window.innerHeight) - 20;
       const squareSize = canvasSize / numCuadros;
 
-      if (canvas !== null){
+      if (canvas !== null) {
         canvas.width = canvasSize;
         canvas.height = canvasSize;
       }
@@ -43,26 +54,66 @@ export default function Tablero() {
       }
 
       // Dibujar el cuadrado sobre el que pasa el mouse
-      if (hoveredSquare !== null) {
-        const { row, col } = hoveredSquare;
-        context.fillStyle = "blue"; // Cambiar color al pasar el mouse
-        context.fillRect(col * squareSize, row * squareSize, squareSize, squareSize);
+      if (tableroHover.current !== null || tableroHover.current !== undefined) {
+        for (let i = 0; i < numCuadros; i++) {
+          for (let j = 0; j < numCuadros; j++) {
+            if (tableroHover.current[i][j] === 1) {
+              context.fillStyle = "red"; // Color del cuadrado hover
+              context.fillRect(
+                j * squareSize,
+                i * squareSize,
+                squareSize,
+                squareSize
+              );
+            }
+          }
+        }
       }
 
       // Dibujar el cuadrado marcado permanentemente
-      if (listMarkedSquare !== null) {
-        listMarkedSquare.forEach((square) => {
-          const { row, col } = square;
-          context.fillStyle = "green"; // Color del cuadrado marcado
-          context.fillRect(col * squareSize, row * squareSize, squareSize, squareSize);
-        });
+      if (tableroClicked !== null) {
+        for (let i = 0; i < numCuadros; i++) {
+          for (let j = 0; j < numCuadros; j++) {
+            if (tableroClicked.current[i][j] === 1) {
+              context.fillStyle = "blue"; // Color del cuadrado marcado
+              context.fillRect(
+                j * squareSize,
+                i * squareSize,
+                squareSize,
+                squareSize
+              );
+            }
+          }
+        }
       }
     }
-  }, [numCuadros, hoveredSquare, listMarkedSquare]);
+  }, [numCuadros, currentSquare]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setNumCuadros(parseInt(value));
+    tableroHover.current = Array(parseInt(value));
+    tableroHover.current.fill(Array(parseInt(value)).fill(0));
+    tableroClicked.current = Array(parseInt(value));
+    tableroClicked.current.fill(Array(parseInt(value)).fill(0));
+  };
+
+  const verifyBorder = (row: number, col: number) => {
+    let status = true;
+    Fichas[fichaSelected].forEach((ficha) => {
+      if (
+        !(
+          row + ficha[0] >= 0 &&
+          row + ficha[0] < numCuadros &&
+          col + ficha[1] >= 0 &&
+          col + ficha[1] < numCuadros
+        )
+      ) {
+        status = false;
+        return;
+      }
+    });
+    return status;
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -73,11 +124,32 @@ export default function Tablero() {
     const squareSize = canvas!.width / numCuadros;
     const col = Math.floor(x / squareSize);
     const row = Math.floor(y / squareSize);
-    setHoveredSquare({ row, col });
+
+    setCurrentSquare([{ row, col }]);
+    if (verifyBorder(row, col)) {
+      tableroHover.current = Array(numCuadros)
+        .fill(0)
+        .map(() => Array(numCuadros).fill(0));
+      Fichas[fichaSelected].forEach((ficha) => {
+        tableroHover.current[row + ficha[0]][col + ficha[1]] = 1;
+      });
+    }
   };
 
-  const handleSquareClick = (row: number, col: number) => {
-    setListMarkedSquare([...listMarkedSquare || [], { row, col }]);
+  const handleSquareClick = () => {
+    if (tableroHover.current !== null) {
+      for (let i = 0; i < numCuadros; i++) {
+        for (let j = 0; j < numCuadros; j++) {
+          if (tableroHover.current[i][j] === 1) {
+            tableroClicked.current[i][j] = 1;
+          }
+        }
+      }
+    }
+    console.log(tableroHover.current);
+    console.log("-------------------");
+    console.log(tableroClicked.current);
+    console.log("========================");
   };
 
   return (
@@ -96,9 +168,7 @@ export default function Tablero() {
         className="bg-black border border-black"
         onMouseMove={handleMouseMove}
         onClick={() => {
-          if (hoveredSquare) {
-            handleSquareClick(hoveredSquare.row, hoveredSquare.col);
-          }
+          handleSquareClick();
         }}
       ></canvas>
     </div>
