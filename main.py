@@ -23,10 +23,14 @@ def pruebaEspacios(arreglo):
     if cantidad >= 4: return True
     else: return False
 
+def comprobarPerdedor(inf,sup,arreglo):
+    
+
+
 class Pieza:
     
 
-    def probarPiezaA(T,i,j,modo):
+    def probarPiezaA(T, i, j, modo):
         if modo in [0, 2]:
             k = 1
             l = 0
@@ -36,10 +40,10 @@ class Pieza:
         try:
             if modo in [0, 1]: m = 1
             else: m = -1
-            if (T[i][j] == 0 and T[i+k][j+l] == 0 and T[i-k][j-l] == 0 and T[i+m*l][j+m*k] == 0): return True
+            if (T[i][j] == 0 and T[i+k][j+l] == 0 and T[i-k][j-l] == 0 and T[i+m*l][ j+ m * k] == 0): return True
             else: return False
         except IndexError:
-            return False
+            return False      
     def probarPiezaB(T,i,j,modo):
         if modo in [0,2,4,6,8]:
             k = 1
@@ -172,6 +176,7 @@ class Pieza:
             T[i-l*m][j+m*k] = 1
             T[i-k-l*m][j+k*m-l] = 1 
 
+# Frontend
 def elegirPieza (pieza,T,turno,inf,sup):
     if pieza == 'A': lim= max(piezas['A'])
     if pieza == 'B': lim= max(piezas['B'])
@@ -196,18 +201,6 @@ def elegirPieza (pieza,T,turno,inf,sup):
     if pieza == 'D': Pieza.colocarPiezaD(T,i,j,0)
     if pieza == 'E': Pieza.colocarPiezaE(T,i,j,modo)
 
-def comprobarPerdedor(inf,sup,arreglo):
-    tableroJugador = []
-    i=0
-    for i in range(inf,sup+1):
-        tableroJugador.append(arreglo[i])
-    i=0
-    for fila in tableroJugador:
-        for elemento in fila:
-            for pieza in piezas:
-                for modo in piezas[pieza]:
-                    if Pieza.probarPiezas(pieza,tableroJugador,i,elemento,modo): return True
-        i+=1
 
 
 
