@@ -6,6 +6,10 @@ export default function Tablero() {
   const [currentSquare, setCurrentSquare] = useState<
     { row: number; col: number }[]
   >([]);
+  const [lastSquare, setLastSquare] = useState<{ row: number; col: number }>({
+    row: 0,
+    col: 0,
+  });
   const [fichaSelected, setFichaSelected] = useState<
     "A" | "B" | "C" | "D" | "E"
   >("A");
@@ -71,7 +75,7 @@ export default function Tablero() {
       }
 
       // Dibujar el cuadrado marcado permanentemente
-      if (tableroClicked !== null) {
+      if (tableroClicked !== null || tableroClicked !== undefined) {
         for (let i = 0; i < numCuadros; i++) {
           for (let j = 0; j < numCuadros; j++) {
             if (tableroClicked.current[i][j] === 1) {
@@ -87,7 +91,7 @@ export default function Tablero() {
         }
       }
     }
-  }, [numCuadros, currentSquare]);
+  }, [numCuadros, currentSquare, lastSquare]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -137,19 +141,20 @@ export default function Tablero() {
   };
 
   const handleSquareClick = () => {
-    if (tableroHover.current !== null) {
+    if (tableroHover.current !== null && tableroClicked.current !== null) {
+      tableroClicked.current = JSON.parse(
+        JSON.stringify(tableroClicked.current)
+      );
+      setLastSquare(currentSquare[currentSquare.length - 1]);
       for (let i = 0; i < numCuadros; i++) {
         for (let j = 0; j < numCuadros; j++) {
+          // Solo asignar si tableroHover.current[i][j] es 1
           if (tableroHover.current[i][j] === 1) {
             tableroClicked.current[i][j] = 1;
           }
         }
       }
     }
-    console.log(tableroHover.current);
-    console.log("-------------------");
-    console.log(tableroClicked.current);
-    console.log("========================");
   };
 
   return (
