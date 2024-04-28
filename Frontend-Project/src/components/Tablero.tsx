@@ -31,15 +31,15 @@ export default function Tablero({
   const tableroHover = useRef<Array<Array<number>>>(
     Array(numCuadros).fill(Array(numCuadros).fill(0))
   );
-  const tableroClicked = useRef<Array<Array<number>>>(
-    Array(numCuadros).fill(Array(numCuadros).fill(0))
+  const tableroClicked = useRef<Array<Array<string>>>(
+    Array(numCuadros).fill(Array(numCuadros).fill(""))
   );
 
   useEffect(() => {
     tableroHover.current = Array(numCuadros);
     tableroHover.current.fill(Array(numCuadros).fill(0));
     tableroClicked.current = Array(numCuadros);
-    tableroClicked.current.fill(Array(numCuadros).fill(0));
+    tableroClicked.current.fill(Array(numCuadros).fill(""));
   }, [numCuadros]);
 
   useEffect(() => {
@@ -105,8 +105,8 @@ export default function Tablero({
       if (tableroClicked !== null || tableroClicked !== undefined) {
         for (let i = 0; i < numCuadros; i++) {
           for (let j = 0; j < numCuadros; j++) {
-            if (tableroClicked.current[i][j] === 1) {
-              context.fillStyle = "blue"; // Color del cuadrado marcado
+            if (tableroClicked.current[i][j] !== "") {
+              context.fillStyle = tableroClicked.current[i][j]; // Color del cuadrado marcado
               context.fillRect(
                 j * squareSize,
                 i * squareSize,
@@ -122,7 +122,7 @@ export default function Tablero({
 
   const verifyBorder = (row: number, col: number) => {
     let status = true;
-    Fichas[fichaSelected].forEach((ficha) => {
+    Fichas[fichaSelected].coords.forEach((ficha) => {
       if (
         !(
           row + ficha[0] >= 0 &&
@@ -153,7 +153,7 @@ export default function Tablero({
       tableroHover.current = Array(numCuadros)
         .fill(0)
         .map(() => Array(numCuadros).fill(0));
-      Fichas[fichaSelected].forEach((ficha) => {
+      Fichas[fichaSelected].coords.forEach((ficha) => {
         tableroHover.current[row + ficha[0]][col + ficha[1]] = 1;
       });
     }
@@ -170,7 +170,7 @@ export default function Tablero({
         for (let j = 0; j < numCuadros; j++) {
           // Solo asignar si tableroHover.current[i][j] es 1
           if (tableroHover.current[i][j] === 1) {
-            if (tableroClicked.current[i][j] === 1) {
+            if (tableroClicked.current[i][j] !== "") {
               pintado = false;
             }
           }
@@ -180,11 +180,13 @@ export default function Tablero({
         for (let i = 0; i < numCuadros; i++) {
           for (let j = 0; j < numCuadros; j++) {
             if (tableroHover.current[i][j] === 1) {
-              tableroClicked.current[i][j] = 1;
+              tableroClicked.current[i][j] = Fichas[fichaSelected].color;
             }
           }
         }
+        setTurno(turno == "X" ? "Y" : "X");
       }
+
       const result = await postColocarPieza(
         {
           T: [
