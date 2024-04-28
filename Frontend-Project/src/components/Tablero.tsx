@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Fichas from "../utils/fichas.ts";
+import { postColocarPieza } from "../api/rules.api.ts";
 
 interface TableroProps {
   turno: "X" | "Y";
@@ -158,7 +159,7 @@ export default function Tablero({
     }
   };
 
-  const handleSquareClick = () => {
+  const handleSquareClick = async () => {
     let pintado = true;
     if (tableroHover.current !== null && tableroClicked.current !== null) {
       tableroClicked.current = JSON.parse(
@@ -184,6 +185,25 @@ export default function Tablero({
           }
         }
       }
+      const result = await postColocarPieza(
+        {
+          T: [
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+          ],
+          i: 2,
+          j: 0,
+          modo: 1,
+        },
+        "A"
+      );
+      console.log(result);
       setTurno(turno == "X" ? "Y" : "X");
     }
   };
