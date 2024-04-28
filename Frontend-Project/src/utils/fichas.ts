@@ -23,9 +23,9 @@ interface Ficha {
 
 const fichaA = {
   coords: [
-    [0, -1],
     [-1, 0],
     [0, 1],
+    [1, 0],
     [0, 0],
   ],
   color: "aquamarine",

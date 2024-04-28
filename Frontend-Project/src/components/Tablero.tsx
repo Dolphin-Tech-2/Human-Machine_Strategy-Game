@@ -160,23 +160,23 @@ export default function Tablero({
   };
 
   const handleSquareClick = async () => {
-    let pintado = true;
+    const tableroBinario = convertToBinary(tableroClicked.current);
+    const response = await postColocarPieza(
+      {
+        T: tableroBinario,
+        i: currentSquare[currentSquare.length - 1].row,
+        j: currentSquare[currentSquare.length - 1].col,
+        modo: 0,
+      },
+      fichaSelected
+    );
+    
     if (tableroHover.current !== null && tableroClicked.current !== null) {
       tableroClicked.current = JSON.parse(
         JSON.stringify(tableroClicked.current)
       );
       setLastSquare(currentSquare[currentSquare.length - 1]);
-      for (let i = 0; i < numCuadros; i++) {
-        for (let j = 0; j < numCuadros; j++) {
-          // Solo asignar si tableroHover.current[i][j] es 1
-          if (tableroHover.current[i][j] === 1) {
-            if (tableroClicked.current[i][j] !== "") {
-              pintado = false;
-            }
-          }
-        }
-      }
-      if (pintado) {
+      if (response.logico) {
         for (let i = 0; i < numCuadros; i++) {
           for (let j = 0; j < numCuadros; j++) {
             if (tableroHover.current[i][j] === 1) {
@@ -186,29 +186,14 @@ export default function Tablero({
         }
         setTurno(turno == "X" ? "Y" : "X");
       }
-
-      const result = await postColocarPieza(
-        {
-          T: [
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-          ],
-          i: 2,
-          j: 0,
-          modo: 1,
-        },
-        "A"
-      );
-      console.log(result);
-      setTurno(turno == "X" ? "Y" : "X");
     }
   };
+
+  function convertToBinary(
+    tablero: Array<Array<string>>
+  ): Array<Array<number>> {
+    return tablero.map((row) => row.map((cell) => (cell === "" ? 0 : 1)));
+  }
 
   return (
     <div>
