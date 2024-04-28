@@ -140,6 +140,42 @@ def colocar_pieza_E(request):
     else:
         return Response(data= {'data': data, 'logico': False}, status= status.HTTP_200_OK)
     
+@api_view(['GET'])
+def victoria(request):
+    data = request.data
+
+    T = data['T']
+    pieza = data['pieza']
+
+    if pieza == 'A':
+        for i in range(0, len(T)):
+            for j in range(0, len(T[i])):
+                if probar_pieza_A(T, i, j, 0):
+                    return Response(data= {'victoria': False}, status= status.HTTP_200_OK)
+    elif pieza == 'B':
+        for i in range(0, len(T)):
+            for j in range(0, len(T[i])):
+                if probar_pieza_B(T, i, j, 0):
+                    return Response(data= {'victoria': False}, status= status.HTTP_200_OK)
+    elif pieza == 'C':
+        for i in range(0, len(T)):
+            for j in range(0, len(T[i])):
+                if probar_pieza_C(T, i, j, 0):
+                    return Response(data= {'victoria': False}, status= status.HTTP_200_OK)
+    elif pieza == 'D':
+        for i in range(0, len(T)):
+            for j in range(0, len(T[i])):
+                if probar_pieza_D(T, i, j, 0):
+                    return Response(data= {'victoria': False}, status= status.HTTP_200_OK)
+    elif pieza == 'E':
+        for i in range(0, len(T)):
+            for j in range(0, len(T[i])):
+                if probar_pieza_E(T, i, j, 0):
+                    return Response(data= {'victoria': False}, status= status.HTTP_200_OK)
+    
+    return Response(data= {'victoria': True}, status= status.HTTP_200_OK)
+
+
 def probar_pieza_A(T, i, j, modo):
     if modo in [0, 2]:
         k = 1
@@ -159,7 +195,7 @@ def probar_pieza_A(T, i, j, modo):
             return False
     except IndexError:
         return False   
-       
+
 def probar_pieza_B(T, i, j, modo):
     if modo in [0, 2, 4, 6, 8]:
         k = 1
