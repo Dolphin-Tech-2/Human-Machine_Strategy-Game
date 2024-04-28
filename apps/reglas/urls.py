@@ -7,4 +7,5 @@ urlpatterns = [
     path('colocar_pieza_c/', views.colocar_pieza_C, name= 'colocar_pieza_C'),
     path('colocar_pieza_d/', views.colocar_pieza_D, name= 'colocar_pieza_D'),
     path('colocar_pieza_e/', views.colocar_pieza_E, name= 'colocar_pieza_E'),
+    path('estado_meta/', views.victoria, name= 'victoria'),
 ]
