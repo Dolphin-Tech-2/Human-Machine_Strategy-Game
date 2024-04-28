@@ -159,6 +159,7 @@ export default function Tablero({
   };
 
   const handleSquareClick = () => {
+    let pintado = true;
     if (tableroHover.current !== null && tableroClicked.current !== null) {
       tableroClicked.current = JSON.parse(
         JSON.stringify(tableroClicked.current)
@@ -168,7 +169,18 @@ export default function Tablero({
         for (let j = 0; j < numCuadros; j++) {
           // Solo asignar si tableroHover.current[i][j] es 1
           if (tableroHover.current[i][j] === 1) {
-            tableroClicked.current[i][j] = 1;
+            if (tableroClicked.current[i][j] === 1) {
+              pintado = false;
+            }
+          }
+        }
+      }
+      if (pintado) {
+        for (let i = 0; i < numCuadros; i++) {
+          for (let j = 0; j < numCuadros; j++) {
+            if (tableroHover.current[i][j] === 1) {
+              tableroClicked.current[i][j] = 1;
+            }
           }
         }
       }
