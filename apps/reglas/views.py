@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 # Create your views here.
-@api_view(['GET'])
+@api_view(['POST'])
 def colocar_pieza_A(request):    
     data = request.data
     
@@ -33,7 +33,7 @@ def colocar_pieza_A(request):
     else: 
         return Response(data= {'data': data, 'logico': False}, status= status.HTTP_200_OK)
     
-@api_view(['GET']) 
+@api_view(['POST']) 
 def colocar_pieza_B(request):
     data = request.data
     
@@ -68,7 +68,7 @@ def colocar_pieza_B(request):
     else: 
         return Response(data= {'data': data, 'logico': False}, status= status.HTTP_200_OK)
     
-@api_view(['GET']) 
+@api_view(['POST']) 
 def colocar_pieza_C(request):
     data = request.data
     
@@ -92,7 +92,7 @@ def colocar_pieza_C(request):
     else: 
         return Response(data= {'data': data, 'logico': False}, status= status.HTTP_200_OK)
     
-@api_view(['GET']) 
+@api_view(['POST']) 
 def colocar_pieza_D(request):
     data = request.data
     
@@ -110,7 +110,7 @@ def colocar_pieza_D(request):
     else: 
         return Response(data= {'data': data, 'logico': False}, status= status.HTTP_200_OK)
     
-@api_view(['GET']) 
+@api_view(['POST']) 
 def colocar_pieza_E(request):
     data = request.data
     
