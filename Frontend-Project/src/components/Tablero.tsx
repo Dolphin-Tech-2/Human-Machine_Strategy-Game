@@ -1,8 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
 import Fichas from "../utils/fichas.ts";
 
-export default function Tablero() {
-  const [numCuadros, setNumCuadros] = useState(8);
+interface TableroProps {
+  turno: "X" | "Y";
+  ficha: "A" | "B" | "C" | "D" | "E";
+  setTurno: (turno: "X" | "Y") => void;
+  jugador: string;
+  numCuadros: number;
+}
+
+export default function Tablero({
+  turno,
+  ficha,
+  setTurno,
+  jugador,
+  numCuadros = 8,
+}: TableroProps) {
   const [currentSquare, setCurrentSquare] = useState<
     { row: number; col: number }[]
   >([]);
@@ -22,11 +35,21 @@ export default function Tablero() {
   );
 
   useEffect(() => {
+    tableroHover.current = Array(numCuadros);
+    tableroHover.current.fill(Array(numCuadros).fill(0));
+    tableroClicked.current = Array(numCuadros);
+    tableroClicked.current.fill(Array(numCuadros).fill(0));
+  }, [numCuadros]);
+
+  useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas?.getContext("2d");
 
     if (context) {
-      const canvasSize = Math.min(window.innerWidth, window.innerHeight) - 20;
+      const canvasSize = Math.min(
+        window.innerWidth,
+        (window.innerHeight / 4) * 3
+      );
       const squareSize = canvasSize / numCuadros;
 
       if (canvas !== null) {
@@ -58,7 +81,10 @@ export default function Tablero() {
       }
 
       // Dibujar el cuadrado sobre el que pasa el mouse
-      if (tableroHover.current !== null || tableroHover.current !== undefined) {
+      if (
+        (tableroHover.current !== null || tableroHover.current !== undefined) &&
+        turno == jugador
+      ) {
         for (let i = 0; i < numCuadros; i++) {
           for (let j = 0; j < numCuadros; j++) {
             if (tableroHover.current[i][j] === 1) {
@@ -93,15 +119,6 @@ export default function Tablero() {
     }
   }, [numCuadros, currentSquare, lastSquare]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setNumCuadros(parseInt(value));
-    tableroHover.current = Array(parseInt(value));
-    tableroHover.current.fill(Array(parseInt(value)).fill(0));
-    tableroClicked.current = Array(parseInt(value));
-    tableroClicked.current.fill(Array(parseInt(value)).fill(0));
-  };
-
   const verifyBorder = (row: number, col: number) => {
     let status = true;
     Fichas[fichaSelected].forEach((ficha) => {
@@ -121,6 +138,7 @@ export default function Tablero() {
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    setFichaSelected(ficha);
     const canvas = canvasRef.current;
     const rect = canvas?.getBoundingClientRect();
     const x = e.clientX - rect!.left;
@@ -154,26 +172,22 @@ export default function Tablero() {
           }
         }
       }
+      setTurno(turno == "X" ? "Y" : "X");
     }
   };
 
   return (
     <div>
-      <label htmlFor="numCuadros">Cuadrados por fila/columna:</label>
-      <input
-        type="number"
-        id="numCuadros"
-        name="numCuadros"
-        value={numCuadros}
-        onChange={handleInputChange}
-      />
+      <label htmlFor="numCuadros">Jugador {jugador}</label>
 
       <canvas
         ref={canvasRef}
         className="bg-black border border-black"
         onMouseMove={handleMouseMove}
         onClick={() => {
-          handleSquareClick();
+          if (turno == jugador) {
+            handleSquareClick();
+          }
         }}
       ></canvas>
     </div>
