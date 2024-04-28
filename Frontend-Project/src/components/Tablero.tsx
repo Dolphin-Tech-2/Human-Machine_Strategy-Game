@@ -4,18 +4,22 @@ import { postColocarPieza } from "../api/rules.api.ts";
 
 interface TableroProps {
   turno: "X" | "Y";
-  ficha: "A" | "B" | "C" | "D" | "E";
+  fichaSelected: "A" | "B" | "C" | "D" | "E";
   setTurno: (turno: "X" | "Y") => void;
   jugador: string;
   numCuadros: number;
+  setTablero: (tablero: Array<Array<number>>) => void;
+  setFichaPadre: (ficha: "A" | "B" | "C" | "D" | "E") => void;
 }
 
 export default function Tablero({
   turno,
-  ficha,
+  fichaSelected,
   setTurno,
   jugador,
   numCuadros = 8,
+  setTablero,
+  setFichaPadre,
 }: TableroProps) {
   const [currentSquare, setCurrentSquare] = useState<
     { row: number; col: number }[]
@@ -24,9 +28,6 @@ export default function Tablero({
     row: 0,
     col: 0,
   });
-  const [fichaSelected, setFichaSelected] = useState<
-    "A" | "B" | "C" | "D" | "E"
-  >("A");
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const tableroHover = useRef<Array<Array<number>>>(
     Array(numCuadros).fill(Array(numCuadros).fill(0))
@@ -120,6 +121,7 @@ export default function Tablero({
     }
   }, [numCuadros, currentSquare, lastSquare]);
 
+
   const verifyBorder = (row: number, col: number) => {
     let status = true;
     Fichas[fichaSelected].coords.forEach((ficha) => {
@@ -139,7 +141,6 @@ export default function Tablero({
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    setFichaSelected(ficha);
     const canvas = canvasRef.current;
     const rect = canvas?.getBoundingClientRect();
     const x = e.clientX - rect!.left;
@@ -170,7 +171,8 @@ export default function Tablero({
       },
       fichaSelected
     );
-    
+    console.log(response);
+
     if (tableroHover.current !== null && tableroClicked.current !== null) {
       tableroClicked.current = JSON.parse(
         JSON.stringify(tableroClicked.current)
@@ -187,6 +189,8 @@ export default function Tablero({
         setTurno(turno == "X" ? "Y" : "X");
       }
     }
+    setTablero(convertToBinary(tableroClicked.current));
+    setFichaPadre(fichaSelected);
   };
 
   function convertToBinary(

@@ -140,7 +140,7 @@ def colocar_pieza_E(request):
     else:
         return Response(data= {'data': data, 'logico': False}, status= status.HTTP_200_OK)
     
-@api_view(['GET'])
+@api_view(['POST'])
 def victoria(request):
     data = request.data
 
