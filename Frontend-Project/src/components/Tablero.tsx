@@ -187,6 +187,8 @@ export default function Tablero({
           }
         }
         setTurno(turno == "X" ? "Y" : "X");
+      }else {
+        alert("Movimiento inválido");
       }
     }
     setTablero(convertToBinary(tableroClicked.current));

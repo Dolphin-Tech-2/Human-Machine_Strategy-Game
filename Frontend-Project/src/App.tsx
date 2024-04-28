@@ -23,7 +23,7 @@ function App() {
         pieza: lastFicha,
       });
       if (response.victoria) {
-        alert(`Ganó el jugador ${turnoMain} - ${lastFicha}`);
+        alert(`Ganó el jugador ${turnoMain == "X" ? "Y" : "X"} - ${lastFicha}`);
       }
     };
     fetchData();
@@ -37,16 +37,17 @@ function App() {
     setFichaMain(randomFicha);
   }, [turnoMain]);
   return (
-    <div className="bg-slate-400 min-h-screen">
-      <h1>Turno de {turnoMain}</h1>
+    <div className="bg-slate-400 min-h-screen flex flex-col justify-center items-center gap-5">
+      <h1 className="text-center">Turno de {turnoMain}</h1>
       <input
         type="number"
         id="numCuadros"
         name="numCuadros"
+        className="text-center w-40"
         value={numCuadros}
         onChange={handleInputChange}
       />
-      <div className="flex flex-row justify-around">
+      <div className="flex flex-row justify-around gap-4">
         <Tablero
           turno={turnoMain}
           fichaSelected={fichaMain}

@@ -103,9 +103,9 @@ def colocar_pieza_D(request):
 
     if probar_pieza_D(T, i, j, modo):
         T[i][j] = 1
-        T[i-1][j] = 1
-        T[i][j+1] = 1
-        T[i-1][j+1] = 1
+        T[i+1][j] = 1
+        T[i][j-1] = 1
+        T[i+1][j-1] = 1
         return Response(data= {'data': data, 'logico': True}, status= status.HTTP_200_OK)        
     else: 
         return Response(data= {'data': data, 'logico': False}, status= status.HTTP_200_OK)
@@ -237,8 +237,11 @@ def probar_pieza_C(T, i, j, modo):
         return False
 
 def probar_pieza_D(T, i, j, modo):
+    # Verificar los límites antes de intentar acceder a los elementos
+    if i < 0 or j < 0 or i+1 >= len(T) or j-1 < 0:
+        return False
     try:
-        if T[i][j] == 0 and T[i-1][j] == 0 and T[i][j-1] == 0 and T[i-1][j+1] == 0: 
+        if T[i][j] == 0 and T[i+1][j] == 0 and T[i][j-1] == 0 and T[i+1][j-1] == 0: 
             return True
         else: 
             return False
