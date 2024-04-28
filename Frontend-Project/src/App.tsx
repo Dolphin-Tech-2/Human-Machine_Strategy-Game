@@ -1,259 +1,51 @@
-
+import { useEffect, useState } from "react";
+import Tablero from "./components/Tablero";
 
 function App() {
+  const [turnoMain, setTurnoMain] = useState<"X" | "Y">("X");
+  const [fichaMain, setFichaMain] = useState<"A" | "B" | "C" | "D" | "E">("C");
+  const [numCuadros, setNumCuadros] = useState(8);
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setNumCuadros(parseInt(value));
+  };
+
+  useEffect(() => {
+    // Cambiar aleatoriamente la ficha
+    const fichas: ("A" | "B" | "C" | "D" | "E")[] = ["A", "B", "C", "D", "E"];
+    const randomFicha: "A" | "B" | "C" | "D" | "E" =
+      fichas[Math.floor(Math.random() * fichas.length)];
+    setFichaMain(randomFicha);
+  }, [turnoMain]);
   return (
-    <div className="bg-slate-400 h-screen">
-      <main className="container mx-auto h-full p-4">
-          <section className="grid grid-cols-2 gap-4 h-full">
-            <div>
-            <div className="grid grid-flow-col overflow-hidden">
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>              
-            </div>                    
-            <div className="grid grid-flow-col overflow-hidden">
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>              
-            </div>                    
-            <div className="grid grid-flow-col overflow-hidden">
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>              
-            </div>                    
-            <div className="grid grid-flow-col overflow-hidden">
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>              
-            </div>                    
-            <div className="grid grid-flow-col overflow-hidden">
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>              
-            </div>                    
-            <div className="grid grid-flow-col overflow-hidden">
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>              
-            </div>                    
-            <div className="grid grid-flow-col overflow-hidden">
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>              
-            </div>                    
-            <div className="grid grid-flow-col overflow-hidden">
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>              
-            </div>                    
-            <div className="grid grid-flow-col overflow-hidden">
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>              
-            </div>                    
-            <div className="grid grid-flow-col overflow-hidden">
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>              
-            </div>                    
-            </div>   
-            <div>
-            <div className="grid grid-flow-col overflow-hidden">
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>              
-            </div>                    
-            <div className="grid grid-flow-col overflow-hidden">
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>              
-            </div>                    
-            <div className="grid grid-flow-col overflow-hidden">
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>              
-            </div>                    
-            <div className="grid grid-flow-col overflow-hidden">
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>              
-            </div>                    
-            <div className="grid grid-flow-col overflow-hidden">
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>              
-            </div>                    
-            <div className="grid grid-flow-col overflow-hidden">
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>              
-            </div>                    
-            <div className="grid grid-flow-col overflow-hidden">
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>              
-            </div>                    
-            <div className="grid grid-flow-col overflow-hidden">
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>              
-            </div>                    
-            <div className="grid grid-flow-col overflow-hidden">
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>              
-            </div>                    
-            <div className="grid grid-flow-col overflow-hidden">
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>
-              <h1 className="bg-slate-50 w-20 h-20">H</h1>              
-            </div>                    
-            </div>           
-          </section>
-      </main>
-    </div>  
-  )
+    <div className="bg-slate-400 min-h-screen">
+      <h1>Turno de {turnoMain}</h1>
+      <input
+        type="number"
+        id="numCuadros"
+        name="numCuadros"
+        value={numCuadros}
+        onChange={handleInputChange}
+      />
+      <div className="flex flex-row justify-around">
+        <Tablero
+          turno={turnoMain}
+          ficha={fichaMain}
+          setTurno={setTurnoMain}
+          jugador="X"
+          numCuadros={numCuadros}
+        />
+        <Tablero
+          turno={turnoMain}
+          ficha={fichaMain}
+          setTurno={setTurnoMain}
+          jugador="Y"
+          numCuadros={numCuadros}
+        />
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
