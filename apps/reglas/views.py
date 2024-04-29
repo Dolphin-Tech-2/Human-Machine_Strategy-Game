@@ -13,8 +13,8 @@ def colocar_pieza_A(request):
     T = data['T']
 
     if modo in [0, 2]:
-            k = 1
-            l = 0
+        k = 1
+        l = 0
     else:
         k = 0
         l = 1
@@ -29,9 +29,9 @@ def colocar_pieza_A(request):
         T[i+k][j+l] = 1
         T[i-k][j-l] = 1
         T[i + m*l][j + m*k] = 1
-        return Response(data= {'data': data, 'logico': True}, status= status.HTTP_200_OK)        
+        return Response(data= {'data': data, 'colocado': True}, status= status.HTTP_200_OK)        
     else: 
-        return Response(data= {'data': data, 'logico': False}, status= status.HTTP_200_OK)
+        return Response(data= {'data': data, 'colocado': False}, status= status.HTTP_200_OK)
     
 @api_view(['POST']) 
 def colocar_pieza_B(request):
@@ -64,9 +64,9 @@ def colocar_pieza_B(request):
         T[i - k * m][j - l*m] = 1
         T[i - 2 * k*m][j - 2*l*m] = 1
         T[i + m*l*n][j + m*k*n] = 1
-        return Response(data= {'data': data, 'logico': True}, status= status.HTTP_200_OK)        
+        return Response(data= {'data': data, 'colocado': True}, status= status.HTTP_200_OK)        
     else: 
-        return Response(data= {'data': data, 'logico': False}, status= status.HTTP_200_OK)
+        return Response(data= {'data': data, 'colocado': False}, status= status.HTTP_200_OK)
     
 @api_view(['POST']) 
 def colocar_pieza_C(request):
@@ -88,9 +88,9 @@ def colocar_pieza_C(request):
         T[i-k][j-l] = 1
         T[i - 2*k][j - 2*l] = 1
         T[i - 3*k][j - 3*l] = 1
-        return Response(data= {'data': data, 'logico': True}, status= status.HTTP_200_OK)        
+        return Response(data= {'data': data, 'colocado': True}, status= status.HTTP_200_OK)        
     else: 
-        return Response(data= {'data': data, 'logico': False}, status= status.HTTP_200_OK)
+        return Response(data= {'data': data, 'colocado': False}, status= status.HTTP_200_OK)
     
 @api_view(['POST']) 
 def colocar_pieza_D(request):
@@ -103,12 +103,12 @@ def colocar_pieza_D(request):
 
     if probar_pieza_D(T, i, j, modo):
         T[i][j] = 1
-        T[i+1][j] = 1
-        T[i][j-1] = 1
-        T[i+1][j-1] = 1
-        return Response(data= {'data': data, 'logico': True}, status= status.HTTP_200_OK)        
+        T[i-1][j] = 1
+        T[i][j+1] = 1
+        T[i-1][j+1] = 1
+        return Response(data= {'data': data, 'colocado': True}, status= status.HTTP_200_OK)        
     else: 
-        return Response(data= {'data': data, 'logico': False}, status= status.HTTP_200_OK)
+        return Response(data= {'data': data, 'colocado': False}, status= status.HTTP_200_OK)
     
 @api_view(['POST']) 
 def colocar_pieza_E(request):
@@ -136,9 +136,9 @@ def colocar_pieza_E(request):
         T[i+k][j+l] = 1
         T[i - l*m][j + m*k] = 1
         T[i-k - l*m][j+k * m-l] = 1 
-        return Response(data= {'data': data, 'logico': True}, status= status.HTTP_200_OK)
+        return Response(data= {'data': data, 'colocado': True}, status= status.HTTP_200_OK)
     else:
-        return Response(data= {'data': data, 'logico': False}, status= status.HTTP_200_OK)
+        return Response(data= {'data': data, 'colocado': False}, status= status.HTTP_200_OK)
     
 @api_view(['POST'])
 def victoria(request):
@@ -175,7 +175,6 @@ def victoria(request):
     
     return Response(data= {'victoria': True}, status= status.HTTP_200_OK)
 
-
 def probar_pieza_A(T, i, j, modo):
     if modo in [0, 2]:
         k = 1
@@ -189,7 +188,7 @@ def probar_pieza_A(T, i, j, modo):
         else: 
             m = -1
 
-        if T[i][j] == 0 and T[i+k][j+l] == 0 and T[i-k][j-l] == 0 and T[i+m*l][j + m*k] == 0: 
+        if i-k >= 0 and T[i][j] == 0 and T[i+k][j+l] == 0 and T[i-k][j-l] == 0 and T[i + m*l][j + m*k] == 0: 
             return True
         else: 
             return False
@@ -214,7 +213,7 @@ def probar_pieza_B(T, i, j, modo):
     else: 
         n = -1
     try:
-        if T[i][j] == 0 and T[i - k*m][j - l*m] == 0 and T[i - 2*k*m][j - 2*l*m] == 0 and T[i + m*l*n][j + m*k*n] == 0: 
+        if i - k*m >= 0 and i - 2*k*m >= 0 and T[i][j] == 0 and T[i - k*m][j - l*m] == 0 and T[i - 2*k*m][j - 2*l*m] == 0 and T[i + m*l*n][j + m*k*n] == 0: 
             return True
         else: 
             return False
@@ -229,7 +228,7 @@ def probar_pieza_C(T, i, j, modo):
         k = 0
         l = 1
     try:
-        if T[i][j] == 0 and T[i-k][j-l] == 0 and T[i - 2*k][j - 2*l] == 0 and T[i - 3*k][j - 3*l] == 0:
+        if i-k >= 0 and i-2*k >= 0 and i-3*k >= 0 and T[i][j] == 0 and T[i-k][j-l] == 0 and T[i - 2*k][j - 2*l] == 0 and T[i - 3*k][j - 3*l] == 0:
             return True
         else: 
             return False
@@ -241,7 +240,7 @@ def probar_pieza_D(T, i, j, modo):
     if i < 0 or j < 0 or i+1 >= len(T) or j-1 < 0:
         return False
     try:
-        if T[i][j] == 0 and T[i+1][j] == 0 and T[i][j-1] == 0 and T[i+1][j-1] == 0: 
+        if i-1 >= 0 and T[i][j] == 0 and T[i-1][j] == 0 and T[i][j-1] == 0 and T[i-1][j+1] == 0: 
             return True
         else: 
             return False
@@ -261,7 +260,7 @@ def probar_pieza_E(T, i, j, modo):
     else: 
         m = -1
     try:
-        if T[i][j] == 0 and T[i+k][j+l] == 0 and T[i - l*m][j + m*k] == 0 and T[i-k - l*m][j+k * m-l] == 0: 
+        if i-k >= 0 and T[i][j] == 0 and T[i+k][j+l] == 0 and T[i - l*m][j + m*k] == 0 and T[i-k - l*m][j+k * m-l] == 0: 
             return True
         return False
     except IndexError:
