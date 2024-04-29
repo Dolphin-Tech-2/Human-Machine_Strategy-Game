@@ -178,7 +178,7 @@ export default function Tablero({
         JSON.stringify(tableroClicked.current)
       );
       setLastSquare(currentSquare[currentSquare.length - 1]);
-      if (response.logico) {
+      if (response.colocado) {
         for (let i = 0; i < numCuadros; i++) {
           for (let j = 0; j < numCuadros; j++) {
             if (tableroHover.current[i][j] === 1) {

@@ -236,11 +236,8 @@ def probar_pieza_C(T, i, j, modo):
         return False
 
 def probar_pieza_D(T, i, j, modo):
-    # Verificar los límites antes de intentar acceder a los elementos
-    if i < 0 or j < 0 or i+1 >= len(T) or j-1 < 0:
-        return False
     try:
-        if i-1 >= 0 and T[i][j] == 0 and T[i-1][j] == 0 and T[i][j-1] == 0 and T[i-1][j+1] == 0: 
+        if i-1 >= 0 and T[i][j] == 0 and T[i][j+1] == 0 and T[i-1][j] == 0 and T[i-1][j+1] == 0: 
             return True
         else: 
             return False
