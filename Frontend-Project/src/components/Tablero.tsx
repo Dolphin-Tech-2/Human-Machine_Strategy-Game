@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Fichas from "../utils/fichas.ts";
 import { postColocarPieza } from "../api/rules.api.ts";
 
@@ -6,7 +6,6 @@ interface TableroProps {
   turno: "X" | "Y";
   fichaSelected: "A" | "B" | "C" | "D" | "E";
   setTurno: (turno: "X" | "Y") => void;
-  jugador: string;
   numCuadros: number;
   setTablero: (tablero: Array<Array<number>>) => void;
   setFichaPadre: (ficha: "A" | "B" | "C" | "D" | "E") => void;
@@ -16,7 +15,6 @@ export default function Tablero({
   turno,
   fichaSelected,
   setTurno,
-  jugador,
   numCuadros = 8,
   setTablero,
   setFichaPadre,
@@ -28,6 +26,7 @@ export default function Tablero({
     row: 0,
     col: 0,
   });
+  const [rotationStatus, setRotationStatus] = useState<0|1|2|3|4>(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const tableroHover = useRef<Array<Array<number>>>(
     Array(numCuadros).fill(Array(numCuadros).fill(0))
@@ -35,6 +34,31 @@ export default function Tablero({
   const tableroClicked = useRef<Array<Array<string>>>(
     Array(numCuadros).fill(Array(numCuadros).fill(""))
   );
+
+  const rotatePiece = useCallback(() => {
+    const rotatedCoords = rotateCoordinates(
+      Fichas[fichaSelected].coords.map((coord) => [coord[0], coord[1]]),
+      90
+    );
+    Fichas[fichaSelected].coords = rotatedCoords.map((coord) => [
+      coord[0],
+      coord[1],
+    ]);
+  }, [fichaSelected]);
+
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === " ") {
+        rotatePiece();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [rotatePiece]);
 
   useEffect(() => {
     tableroHover.current = Array(numCuadros);
@@ -83,10 +107,7 @@ export default function Tablero({
       }
 
       // Dibujar el cuadrado sobre el que pasa el mouse
-      if (
-        (tableroHover.current !== null || tableroHover.current !== undefined) &&
-        turno == jugador
-      ) {
+      if (tableroHover.current !== null || tableroHover.current !== undefined) {
         for (let i = 0; i < numCuadros; i++) {
           for (let j = 0; j < numCuadros; j++) {
             if (tableroHover.current[i][j] === 1) {
@@ -120,7 +141,6 @@ export default function Tablero({
       }
     }
   }, [numCuadros, currentSquare, lastSquare]);
-
 
   const verifyBorder = (row: number, col: number) => {
     let status = true;
@@ -187,7 +207,7 @@ export default function Tablero({
           }
         }
         setTurno(turno == "X" ? "Y" : "X");
-      }else {
+      } else {
         alert("Movimiento inválido");
       }
     }
@@ -201,18 +221,25 @@ export default function Tablero({
     return tablero.map((row) => row.map((cell) => (cell === "" ? 0 : 1)));
   }
 
+  function rotateCoordinates(coords: [number, number][], angle: number) {
+    // Determina la cantidad de rotaciones de 90 grados basadas en el ángulo
+    const rotations = (angle / 90) % 4;
+
+    // Aplicar la rotación necesaria basada en el número de rotaciones de 90 grados
+    for (let i = 0; i < rotations; i++) {
+      coords = coords.map(([x, y]) => [-y, x]);
+    }
+    return coords;
+  }
+
   return (
     <div>
-      <label htmlFor="numCuadros">Jugador {jugador}</label>
-
       <canvas
         ref={canvasRef}
         className="bg-black border border-black"
         onMouseMove={handleMouseMove}
         onClick={() => {
-          if (turno == jugador) {
-            handleSquareClick();
-          }
+          handleSquareClick();
         }}
       ></canvas>
     </div>
