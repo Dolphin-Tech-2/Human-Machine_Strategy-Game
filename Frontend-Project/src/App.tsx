@@ -52,16 +52,6 @@ function App() {
           turno={turnoMain}
           fichaSelected={fichaMain}
           setTurno={setTurnoMain}
-          jugador="X"
-          numCuadros={numCuadros}
-          setTablero={setCurrentTablero}
-          setFichaPadre={setLastFicha}
-        />
-        <Tablero
-          turno={turnoMain}
-          fichaSelected={fichaMain}
-          setTurno={setTurnoMain}
-          jugador="Y"
           numCuadros={numCuadros}
           setTablero={setCurrentTablero}
           setFichaPadre={setLastFicha}
