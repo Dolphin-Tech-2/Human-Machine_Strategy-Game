@@ -2,22 +2,27 @@ interface Ficha {
   A: {
     coords: number[][];
     color: string;
+    rotaciones: number;
   };
   B: {
     coords: number[][];
     color: string;
+    rotaciones: number;
   };
   C: {
     coords: number[][];
     color: string;
+    rotaciones: number;
   };
   D: {
     coords: number[][];
     color: string;
+    rotaciones: number;
   };
   E: {
     coords: number[][];
     color: string;
+    rotaciones: number;
   };
 }
 
@@ -29,6 +34,7 @@ const fichaA = {
     [0, 0],
   ],
   color: "aquamarine",
+  rotaciones: 4,
 };
 
 const fichaB = {
@@ -39,6 +45,7 @@ const fichaB = {
     [0, 0],
   ],
   color: "violet",
+  rotaciones: 4,
 };
 
 const fichaC = {
@@ -49,6 +56,7 @@ const fichaC = {
     [-3, 0],
   ],
   color: "green",
+  rotaciones: 2,
 };
 
 const fichaD = {
@@ -59,6 +67,7 @@ const fichaD = {
     [-1, 1],
   ],
   color: "yellow",
+  rotaciones: 1,
 };
 
 const fichaE = {
@@ -69,6 +78,7 @@ const fichaE = {
     [-1, 1],
   ],
   color: "orange",
+  rotaciones: 2,
 };
 
 const Ficha: Ficha = {
