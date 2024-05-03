@@ -9,6 +9,9 @@ interface TableroProps {
   numCuadros: number;
   setTablero: (tablero: Array<Array<number>>) => void;
   setFichaPadre: (ficha: "A" | "B" | "C" | "D" | "E") => void;
+  setFicha: (ficha: "A" | "B" | "C" | "D" | "E") => void;
+  isClickeable: boolean;
+  setIsClickeable: (valor: boolean) => void;
 }
 
 export default function Tablero({
@@ -18,6 +21,8 @@ export default function Tablero({
   numCuadros = 8,
   setTablero,
   setFichaPadre,
+  isClickeable,
+  setIsClickeable,
 }: TableroProps) {
   const [currentSquare, setCurrentSquare] = useState<
     { row: number; col: number }[]
@@ -132,7 +137,10 @@ export default function Tablero({
       }
 
       // Dibujar el cuadrado sobre el que pasa el mouse
-      if (tableroHover.current !== null || tableroHover.current !== undefined) {
+      if (
+        (tableroHover.current !== null || tableroHover.current !== undefined) &&
+        isClickeable === true
+      ) {
         for (let i = 0; i < numCuadros; i++) {
           for (let j = 0; j < numCuadros; j++) {
             if (tableroHover.current[i][j] === 1) {
@@ -219,7 +227,11 @@ export default function Tablero({
     );
     console.log(response);
 
-    if (tableroHover.current !== null && tableroClicked.current !== null) {
+    if (
+      tableroHover.current !== null &&
+      tableroClicked.current !== null &&
+      isClickeable === true
+    ) {
       tableroClicked.current = JSON.parse(
         JSON.stringify(tableroClicked.current)
       );
@@ -232,11 +244,13 @@ export default function Tablero({
             }
           }
         }
+        setIsClickeable(false);
         setTurno(turno == "X" ? "Y" : "X");
       } else {
         alert("Movimiento inválido");
       }
     }
+    console.log(isClickeable);
     setTablero(convertToBinary(tableroClicked.current));
     setFichaPadre(fichaSelected);
   };
