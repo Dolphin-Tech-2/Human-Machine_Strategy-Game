@@ -22,28 +22,53 @@ export default function Tablero({
   const [currentSquare, setCurrentSquare] = useState<
     { row: number; col: number }[]
   >([]);
+
   const [lastSquare, setLastSquare] = useState<{ row: number; col: number }>({
     row: 0,
     col: 0,
   });
-  const [rotationStatus, setRotationStatus] = useState<0|1|2|3|4>(0);
+
+  const rotationStatus = useRef<0 | 1 | 2 | 3 | 4>(0);
+  const [rotationNumber, setRotationNumber] = useState<0 | 1 | 2 | 3 | 4>(0);
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
   const tableroHover = useRef<Array<Array<number>>>(
     Array(numCuadros).fill(Array(numCuadros).fill(0))
   );
+
   const tableroClicked = useRef<Array<Array<string>>>(
     Array(numCuadros).fill(Array(numCuadros).fill(""))
   );
 
   const rotatePiece = useCallback(() => {
+    const numRotations = Fichas[fichaSelected].rotaciones;
+    const rotationAngle =
+      rotationStatus.current === numRotations - 1
+        ? 90 * (5 - numRotations)
+        : 90;
+
+    // Rotamos la pieza
     const rotatedCoords = rotateCoordinates(
-      Fichas[fichaSelected].coords.map((coord) => [coord[0], coord[1]]),
-      90
+      Fichas[fichaSelected].coords,
+      rotationAngle
     );
-    Fichas[fichaSelected].coords = rotatedCoords.map((coord) => [
-      coord[0],
-      coord[1],
-    ]);
+    Fichas[fichaSelected].coords = rotatedCoords;
+
+    // Incrementamos rotationStatus y lo mantenemos dentro del rango [0, numRotations)
+    rotationStatus.current = ((rotationStatus.current + 1) % numRotations) as
+      | 0
+      | 1
+      | 2
+      | 3
+      | 4;
+
+    setRotationNumber(rotationStatus.current);
+  }, [fichaSelected]);
+
+  useEffect(() => {
+    rotationStatus.current = 0;
+    setRotationNumber(0);
   }, [fichaSelected]);
 
   useEffect(() => {
@@ -182,12 +207,13 @@ export default function Tablero({
 
   const handleSquareClick = async () => {
     const tableroBinario = convertToBinary(tableroClicked.current);
+    console.log(rotationNumber);
     const response = await postColocarPieza(
       {
         T: tableroBinario,
         i: currentSquare[currentSquare.length - 1].row,
         j: currentSquare[currentSquare.length - 1].col,
-        modo: 0,
+        modo: rotationNumber,
       },
       fichaSelected
     );
@@ -221,11 +247,9 @@ export default function Tablero({
     return tablero.map((row) => row.map((cell) => (cell === "" ? 0 : 1)));
   }
 
-  function rotateCoordinates(coords: [number, number][], angle: number) {
-    // Determina la cantidad de rotaciones de 90 grados basadas en el ángulo
+  function rotateCoordinates(coords: number[][], angle: number) {
     const rotations = (angle / 90) % 4;
 
-    // Aplicar la rotación necesaria basada en el número de rotaciones de 90 grados
     for (let i = 0; i < rotations; i++) {
       coords = coords.map(([x, y]) => [-y, x]);
     }
