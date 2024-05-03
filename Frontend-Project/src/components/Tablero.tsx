@@ -29,6 +29,7 @@ export default function Tablero({
   });
 
   const rotationStatus = useRef<0 | 1 | 2 | 3 | 4>(0);
+  const [rotationNumber, setRotationNumber] = useState<0 | 1 | 2 | 3 | 4>(0);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -62,19 +63,12 @@ export default function Tablero({
       | 3
       | 4;
 
-    // Si hemos alcanzado el número máximo de rotaciones, restablecemos la pieza a su posición original
-    if (rotationStatus.current === 0) {
-      Fichas[fichaSelected].coords = rotateCoordinates(
-        rotatedCoords,
-        -rotationAngle * numRotations
-      );
-    }
-
-    console.log(rotationStatus.current);
+    setRotationNumber(rotationStatus.current);
   }, [fichaSelected]);
 
   useEffect(() => {
     rotationStatus.current = 0;
+    setRotationNumber(0);
   }, [fichaSelected]);
 
   useEffect(() => {
@@ -213,12 +207,13 @@ export default function Tablero({
 
   const handleSquareClick = async () => {
     const tableroBinario = convertToBinary(tableroClicked.current);
+    console.log(rotationNumber);
     const response = await postColocarPieza(
       {
         T: tableroBinario,
         i: currentSquare[currentSquare.length - 1].row,
         j: currentSquare[currentSquare.length - 1].col,
-        modo: 0,
+        modo: rotationNumber,
       },
       fichaSelected
     );
