@@ -11,6 +11,7 @@ function App() {
     Array(numCuadros).fill(Array(numCuadros).fill(0))
   );
   const [lastFicha, setLastFicha] = useState<"A" | "B" | "C" | "D" | "E">("C");
+  const [rotationNumber, setRotationNumber] = useState<0 | 1 | 2 | 3 | 4>(0);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -22,6 +23,7 @@ function App() {
       const response = await postEstadoMeta({
         T: currentTablero,
         pieza: lastFicha,
+        modo: rotationNumber,
       });
       if (response.victoria) {
         alert(`Ganó el jugador ${turnoMain == "X" ? "Y" : "X"} - ${lastFicha}`);
@@ -62,6 +64,8 @@ function App() {
               setFicha={setFichaMain}
               isClickeable={isClickeable}
               setIsClickeable={setIsClickeable}
+              rotationNumber={rotationNumber}
+              setRotationNumber={setRotationNumber}
             />
           </div>
         </div>
