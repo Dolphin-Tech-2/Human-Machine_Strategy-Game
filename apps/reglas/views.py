@@ -13,7 +13,7 @@ def colocar_pieza_A(request):
     j = data['j']
     T = data['T']
 
-    colocado = GameClass.colocar_pieza_A(T, i, j, modo)
+    colocado = GameClass.colocar_pieza("A", T, i, j, modo)
 
     return Response(data= {'data': data, 'colocado': colocado}, status= status.HTTP_200_OK)
     
@@ -26,7 +26,7 @@ def colocar_pieza_B(request):
     j = data['j']
     T = data['T']
 
-    colocado = GameClass.colocar_pieza_B(T, i, j, modo)
+    colocado = GameClass.colocar_pieza("B", T, i, j, modo)
 
     return Response(data= {'data': data, 'colocado': colocado}, status= status.HTTP_200_OK)
     
@@ -39,7 +39,7 @@ def colocar_pieza_C(request):
     j = data['j']
     T = data['T']
 
-    colocado = GameClass.colocar_pieza_C(T, i, j, modo)
+    colocado = GameClass.colocar_pieza("C", T, i, j, modo)
     
     return Response(data= {'data': data, 'colocado': colocado}, status= status.HTTP_200_OK)
     
@@ -51,7 +51,7 @@ def colocar_pieza_D(request):
     j = data['j']
     T = data['T']
 
-    colocado = GameClass.colocar_pieza_D(T, i, j)
+    colocado = GameClass.colocar_pieza("D", T, i, j, 0)
     
     return Response(data= {'data': data, 'colocado': colocado}, status= status.HTTP_200_OK)
     
@@ -64,7 +64,7 @@ def colocar_pieza_E(request):
     j = data['j']
     T = data['T']
 
-    colocado = GameClass.colocar_pieza_E(T, i, j, modo)
+    colocado = GameClass.colocar_pieza("E", T, i, j, modo)
 
     return Response(data= {'data': data, 'colocado': colocado}, status= status.HTTP_200_OK)
     
@@ -74,7 +74,8 @@ def victoria(request):
 
     T = data['T']
     pieza = data['pieza']
+    modo = data['modo']
 
-    victoria = GameClass.verificar_victoria(T, pieza)
+    victoria = GameClass.verificar_victoria(T, pieza, modo)
     
     return Response(data= {'victoria': victoria}, status= status.HTTP_200_OK)

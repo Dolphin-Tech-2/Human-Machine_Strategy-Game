@@ -12,6 +12,8 @@ interface TableroProps {
   setFicha: (ficha: "A" | "B" | "C" | "D" | "E") => void;
   isClickeable: boolean;
   setIsClickeable: (valor: boolean) => void;
+  rotationNumber: 0 | 1 | 2 | 3 | 4;
+  setRotationNumber: (valor: 0 | 1 | 2 | 3 | 4) => void;
 }
 
 export default function Tablero({
@@ -23,6 +25,8 @@ export default function Tablero({
   setFichaPadre,
   isClickeable,
   setIsClickeable,
+  rotationNumber,
+  setRotationNumber,
 }: TableroProps) {
   const [currentSquare, setCurrentSquare] = useState<
     { row: number; col: number }[]
@@ -34,7 +38,6 @@ export default function Tablero({
   });
 
   const rotationStatus = useRef<0 | 1 | 2 | 3 | 4>(0);
-  const [rotationNumber, setRotationNumber] = useState<0 | 1 | 2 | 3 | 4>(0);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
