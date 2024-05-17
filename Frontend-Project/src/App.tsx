@@ -5,12 +5,12 @@ import SideBoard from "./components/SideBoard";
 
 function App() {
   const [turnoMain, setTurnoMain] = useState<"X" | "Y">("X");
-  const [fichaMain, setFichaMain] = useState<"A" | "B" | "C" | "D" | "E">("C");
+  const [fichaMain, setFichaMain] = useState<"A" | "B" | "C" | "D" | "E">("A");
   const [numCuadros, setNumCuadros] = useState(8);
   const [currentTablero, setCurrentTablero] = useState<Array<Array<number>>>(
     Array(numCuadros).fill(Array(numCuadros).fill(0))
   );
-  const [lastFicha, setLastFicha] = useState<"A" | "B" | "C" | "D" | "E">("C");
+  const [lastFicha, setLastFicha] = useState<"A" | "B" | "C" | "D" | "E">("A");
   const [rotationNumber, setRotationNumber] = useState<0 | 1 | 2 | 3 | 4>(0);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,14 +31,6 @@ function App() {
     };
     fetchData();
   }, [currentTablero]);
-
-  useEffect(() => {
-    // Cambiar aleatoriamente la ficha
-    const fichas: ("A" | "B" | "C" | "D" | "E")[] = ["A", "B", "C", "D", "E"];
-    const randomFicha: "A" | "B" | "C" | "D" | "E" =
-      fichas[Math.floor(Math.random() * fichas.length)];
-    setFichaMain(randomFicha);
-  }, []);
   const [isClickeable, setIsClickeable] = useState(true);
   return (
     <>

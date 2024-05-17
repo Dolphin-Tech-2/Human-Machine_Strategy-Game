@@ -8,4 +8,5 @@ urlpatterns = [
     path('colocar_pieza_d/', views.colocar_pieza_D, name= 'colocar_pieza_D'),
     path('colocar_pieza_e/', views.colocar_pieza_E, name= 'colocar_pieza_E'),
     path('estado_meta/', views.victoria, name= 'victoria'),
+    path('jugar_turno/', views.jugar_turno, name='jugar_turno'),
 ]
