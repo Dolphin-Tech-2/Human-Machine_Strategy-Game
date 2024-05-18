@@ -36,6 +36,7 @@ function App() {
     fetchData();
   }, [currentTablero]);
   const [isClickeable, setIsClickeable] = useState(true);
+  const [fichasSelected, setFichasSelected] = useState(["B", "C", "D", "E"]);
   return (
     <>
       <div className="bg-background bg-[radial-gradient(ellipse_80%80%_at_50%-20%,rgba(120,119,198,0.2),rgba(255,255,255,0))] min-h-screen flex justify-center items-center gap-8">
@@ -77,6 +78,8 @@ function App() {
               setIsClickeable={setIsClickeable}
               rotationNumber={rotationNumber}
               setRotationNumber={setRotationNumber}
+              fichasSelected={fichasSelected}
+              setFichasSelected={setFichasSelected}
             />
           </div>
         </div>
@@ -84,6 +87,7 @@ function App() {
           <SideBoard
             setFicha={setFichaMain}
             setIsClickeable={setIsClickeable}
+            fichasSelected={fichasSelected}
           />
         </div>
       </div>
