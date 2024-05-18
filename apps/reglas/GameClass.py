@@ -1,4 +1,5 @@
 from .coords import Ficha_dict
+import random
 
 class GameClass:
 
@@ -115,5 +116,17 @@ class GameClass:
                         break
             return min_eval, mejor_movimiento
 
-
+    @staticmethod
+    def aleatorio(T, piezas_disponibles):
+        movimientos_posibles = []
+        for pieza in piezas_disponibles:
+            movimientos_posibles += GameClass.generar_movimientos_posibles(T, pieza)
+        
+        if not movimientos_posibles:
+            return None
+        else:
+            movimiento = random.choice(movimientos_posibles)
+            pieza, i, j, modo = movimiento
+            GameClass.colocar_pieza(pieza, T, i, j, modo)
+        return movimiento
 

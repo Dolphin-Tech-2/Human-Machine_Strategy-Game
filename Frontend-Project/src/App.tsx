@@ -34,7 +34,7 @@ function App() {
   const [isClickeable, setIsClickeable] = useState(true);
   return (
     <>
-      <div className="bg-slate-400 min-h-screen flex flex-row justify-center items-center gap-5">
+      <div className="bg-gray-800 min-h-screen flex flex-row justify-center items-center gap-5">
         <div className="flex flex-col justify-center items-center gap-5">
           <h1 className="text-center">Turno de {turnoMain}</h1>
           <input
