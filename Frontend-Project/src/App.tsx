@@ -13,8 +13,9 @@ function App() {
   );
   const [lastFicha, setLastFicha] = useState<"A" | "B" | "C" | "D" | "E">("A");
   const [rotationNumber, setRotationNumber] = useState<0 | 1 | 2 | 3 | 4>(0);
-  const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(null);
-
+  const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(
+    null
+  );
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -43,9 +44,10 @@ function App() {
   return (
     <>
       <div className="bg-background bg-[radial-gradient(ellipse_80%80%_at_50%-20%,rgba(120,119,198,0.2),rgba(255,255,255,0))] min-h-screen flex justify-center items-center gap-8">
-        <DifficultySideBoard 
-        selectedDifficulty={selectedDifficulty}
-        setSelectedDifficulty={setSelectedDifficulty}/>
+        <DifficultySideBoard
+          selectedDifficulty={selectedDifficulty}
+          setSelectedDifficulty={setSelectedDifficulty}
+        />
         <div className="flex font-roboto flex-col text-gris font-bold justify-center items-center gap-5">
           <h1 className="bg-block-turn border-2 border-gris py-2 px-10 rounded-xl text-center text-2xl">
             TURNO: {turnoMain}
@@ -89,7 +91,12 @@ function App() {
             />
           </div>
         </div>
-        <SideBoard setFicha={setFichaMain} setIsClickeable={setIsClickeable} />
+        <SideBoard
+          setFicha={setFichaMain}
+          setIsClickeable={setIsClickeable}
+          fichasSelected={fichasSelected}
+          setFichasSelected={setFichasSelected}
+        />
       </div>
     </>
   );
