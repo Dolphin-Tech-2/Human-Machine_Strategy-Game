@@ -4,4 +4,6 @@ export interface request {
     j?: number;
     modo?: number;
     pieza?: string;
+    piezas_disponibles?: string[];
+    profundidad?: number;
 }
