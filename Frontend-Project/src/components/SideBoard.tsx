@@ -7,25 +7,30 @@ import Pieza5 from "../assets/Pieza5.png";
 interface SideBoardProps {
   setFicha: (ficha: "A" | "B" | "C" | "D" | "E") => void;
   setIsClickeable: (valor: boolean) => void;
+  fichasSelected: string[];
+  setFichasSelected: (fichas: string[]) => void;
 }
-let piecesClicked: string[] = [];
-const SideBoard = ({ setFicha, setIsClickeable }: SideBoardProps) => {
+const SideBoard = ({
+  setFicha,
+  setIsClickeable,
+  fichasSelected,
+  setFichasSelected,
+}: SideBoardProps) => {
   const onHandleImageClick = (
     e: React.MouseEvent,
     pieza: "A" | "B" | "C" | "D" | "E"
   ) => {
     console.log(pieza);
-
-    if (!piecesClicked.includes(pieza)) {
-      piecesClicked.push(pieza);
+    if (fichasSelected.length === 0) {
+      setFichasSelected(["A", "B", "C", "D", "E"]);
+    }
+    console.log("Fichas dentro del sideBoard", fichasSelected);
+    if (fichasSelected.includes(pieza)) {
       setFicha(pieza);
       setIsClickeable(true);
     }
-    if (piecesClicked.length === 5) {
-      piecesClicked = [];
-    }
 
-    //console.log(piecesClicked);
+    console.log(fichasSelected);
   };
   return (
     <>
