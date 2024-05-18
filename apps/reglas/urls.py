@@ -9,5 +9,6 @@ urlpatterns = [
     path('colocar_pieza_e/', views.colocar_pieza_E, name= 'colocar_pieza_E'),
     path('estado_meta/', views.victoria, name= 'victoria'),
     path('jugar_turno/', views.jugar_turno, name='jugar_turno'),
-    path('jugar_aleatorio/', views.jugar_aleatorio, name='jugar_aleatorio')
+    path('jugar_aleatorio/', views.jugar_aleatorio, name='jugar_aleatorio'),
+    path('jugar_turno_greedy/', views.jugar_turno_greedy, name='jugar_turno_greedy'),
 ]
