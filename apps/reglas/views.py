@@ -123,3 +123,25 @@ def jugar_aleatorio(request):
         return Response(data={'error': f'Falta el campo {str(e)} en la petición'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response(data={'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@api_view(['POST'])
+def jugar_turno_greedy(request):
+    data = request.data
+    print(f"Datos recibidos: {data}")  # Registro de datos
+
+    try:
+        T = data['T']
+        piezas_disponibles = data['piezas_disponibles']
+
+        _, mejor_movimiento = GameClass.greedy_best_first(T, piezas_disponibles)
+        
+        if mejor_movimiento:
+            pieza, i, j, modo = mejor_movimiento
+            GameClass.colocar_pieza(pieza, T, i, j, modo)
+            return Response(data={'mejor_movimiento': mejor_movimiento, 'tablero': T}, status=status.HTTP_200_OK)
+        else:
+            return Response(data={'mensaje': 'No se encontró un movimiento válido'}, status=status.HTTP_400_BAD_REQUEST)
+    except KeyError as e:
+        return Response(data={'error': f'Falta el campo {str(e)} en la petición'}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response(data={'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

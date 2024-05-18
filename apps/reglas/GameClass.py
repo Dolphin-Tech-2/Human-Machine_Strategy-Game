@@ -130,3 +130,21 @@ class GameClass:
             GameClass.colocar_pieza(pieza, T, i, j, modo)
         return movimiento
 
+    @staticmethod
+    def greedy_best_first(T, piezas_disponibles):
+        mejor_movimiento = None
+        mejor_puntuacion = float('-inf')
+
+        for pieza_actual in piezas_disponibles:
+            movimientos_posibles = GameClass.generar_movimientos_posibles(T, pieza_actual)
+            for movimiento in movimientos_posibles:
+                tablero_copia = [fila[:] for fila in T]
+                pieza, i, j, modo = movimiento
+                GameClass.colocar_pieza(pieza, tablero_copia, i, j, modo)
+                puntuacion = GameClass.evaluar_tablero(tablero_copia)
+                if puntuacion > mejor_puntuacion:
+                    mejor_puntuacion = puntuacion
+                    mejor_movimiento = (pieza, i, j, modo)
+        
+        return mejor_puntuacion, mejor_movimiento
+
