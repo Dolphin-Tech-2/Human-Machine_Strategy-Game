@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Fichas from "../utils/fichas.ts";
-import { postColocarPieza } from "../api/rules.api.ts";
+import {
+  postColocarPieza,
+  postGenerarJugadaAleatorio,
+  postGenerarJugadaMinMax,
+} from "../api/rules.api.ts";
 
 interface TableroProps {
-  turno: "X" | "Y";
+  turno: "JUGADOR" | "MÁQUINA";
   fichaSelected: "A" | "B" | "C" | "D" | "E";
-  setTurno: (turno: "X" | "Y") => void;
+  setTurno: (turno: "JUGADOR" | "MÁQUINA") => void;
   numCuadros: number;
   setTablero: (tablero: Array<Array<number>>) => void;
   setFichaPadre: (ficha: "A" | "B" | "C" | "D" | "E") => void;
@@ -48,7 +52,7 @@ export default function Tablero({
   const tableroClicked = useRef<Array<Array<string>>>(
     Array(numCuadros).fill(Array(numCuadros).fill(""))
   );
-
+  const [fichasSelected, setFichasSelected] = useState(["B", "C", "D", "E"]);
   const rotatePiece = useCallback(() => {
     const numRotations = Fichas[fichaSelected].rotaciones;
     const rotationAngle =
@@ -116,7 +120,7 @@ export default function Tablero({
         canvas.height = canvasSize;
       }
 
-      context.fillStyle = "white";
+      context.fillStyle = "#7a787a1f";
       context.fillRect(0, 0, canvasSize, canvasSize);
 
       // Dibujar líneas verticales
@@ -125,7 +129,7 @@ export default function Tablero({
         context.moveTo(i * squareSize, 0);
         context.lineTo(i * squareSize, canvasSize);
         context.lineWidth = 2;
-        context.strokeStyle = "black";
+        context.strokeStyle = "#a29e9f";
         context.stroke();
       }
 
@@ -135,7 +139,7 @@ export default function Tablero({
         context.moveTo(0, i * squareSize);
         context.lineTo(canvasSize, i * squareSize);
         context.lineWidth = 2;
-        context.strokeStyle = "black";
+        context.strokeStyle = "#a29e9f";
         context.stroke();
       }
 
@@ -147,7 +151,7 @@ export default function Tablero({
         for (let i = 0; i < numCuadros; i++) {
           for (let j = 0; j < numCuadros; j++) {
             if (tableroHover.current[i][j] === 1) {
-              context.fillStyle = "red"; // Color del cuadrado hover
+              context.fillStyle = "#ae6861"; // Color del cuadrado hover
               context.fillRect(
                 j * squareSize,
                 i * squareSize,
@@ -248,7 +252,52 @@ export default function Tablero({
           }
         }
         setIsClickeable(false);
-        setTurno(turno == "X" ? "Y" : "X");
+        //setTurno(turno == "X" ? "Y" : "X");
+        let fichasDisponibles = fichasSelected;
+        if (fichasDisponibles.length === 0) {
+          setFichasSelected(["A", "B", "C", "D", "E"]);
+          fichasDisponibles = ["A", "B", "C", "D", "E"];
+        }
+        fichasDisponibles = fichasDisponibles.filter(
+          (ficha) => ficha !== fichaSelected
+        );
+        if (fichasDisponibles.length === 0) {
+          setFichasSelected(["A", "B", "C", "D", "E"]);
+          fichasDisponibles = ["A", "B", "C", "D", "E"];
+        }
+        setFichasSelected(fichasDisponibles);
+        console.log("fichas disponibles", fichasDisponibles);
+
+        console.log("parametro", fichasDisponibles);
+        try {
+          const responsePieza = await postGenerarJugadaAleatorio({
+            T: convertToBinary(tableroClicked.current),
+            piezas_disponibles: fichasDisponibles,
+          });
+          console.log(responsePieza);
+          fichasDisponibles = fichasDisponibles.filter(
+            (ficha) => ficha !== responsePieza.mejor_movimiento[0]
+          );
+          console.log("fichas disponibles MAQUINA", fichasDisponibles);
+          setFichasSelected(fichasDisponibles);
+          if (responsePieza.tablero !== null) {
+            for (let i = 0; i < numCuadros; i++) {
+              for (let j = 0; j < numCuadros; j++) {
+                if (
+                  responsePieza.tablero[i][j] === 1 &&
+                  tableroClicked.current[i][j] === ""
+                ) {
+                  tableroClicked.current[i][j] =
+                    Fichas[
+                      responsePieza.mejor_movimiento[0] as keyof typeof Fichas
+                    ].color;
+                }
+              }
+            }
+          }
+        } catch (e) {
+          console.log(e);
+        }
       } else {
         alert("Movimiento inválido");
       }
@@ -277,7 +326,7 @@ export default function Tablero({
     <div>
       <canvas
         ref={canvasRef}
-        className="bg-black border border-black"
+        className="bg-black border border-gris"
         onMouseMove={handleMouseMove}
         onClick={() => {
           handleSquareClick();

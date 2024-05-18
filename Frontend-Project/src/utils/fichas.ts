@@ -33,7 +33,7 @@ const fichaA = {
     [1, 0],
     [0, 0],
   ],
-  color: "aquamarine",
+  color: "#e4908c",
   rotaciones: 4,
 };
 
@@ -44,7 +44,7 @@ const fichaB = {
     [0, 1],
     [0, 0],
   ],
-  color: "violet",
+  color: "#325f4d",
   rotaciones: 4,
 };
 
@@ -55,7 +55,7 @@ const fichaC = {
     [-2, 0],
     [-3, 0],
   ],
-  color: "green",
+  color: "#346ea1",
   rotaciones: 2,
 };
 
@@ -66,7 +66,7 @@ const fichaD = {
     [0, 1],
     [-1, 1],
   ],
-  color: "yellow",
+  color: "#5d4219",
   rotaciones: 1,
 };
 
@@ -77,7 +77,7 @@ const fichaE = {
     [0, 1],
     [-1, 1],
   ],
-  color: "orange",
+  color: "#bdc4ca",
   rotaciones: 2,
 };
 
