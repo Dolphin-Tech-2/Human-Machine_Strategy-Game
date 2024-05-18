@@ -20,3 +20,22 @@ export const postEstadoMeta = async (data: request) => {
     console.error(error);
   }
 }
+
+export const postGenerarJugadaMinMax = async (data: request) => {
+  try {
+    const response = await instanseAxios.post("/reglas/jugar_turno/", data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export const postGenerarJugadaAleatorio = async (data: request) => {
+  try {
+    const response = await instanseAxios.post("/reglas/jugar_aleatorio/", data);
+    return response.data;
+  }
+  catch (error) {
+    console.error(error);
+  }
+}
