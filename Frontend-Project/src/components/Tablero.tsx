@@ -18,6 +18,8 @@ interface TableroProps {
   setIsClickeable: (valor: boolean) => void;
   rotationNumber: 0 | 1 | 2 | 3 | 4;
   setRotationNumber: (valor: 0 | 1 | 2 | 3 | 4) => void;
+  fichasSelected: string[];
+  setFichasSelected: (fichas: string[]) => void;
 }
 
 export default function Tablero({
@@ -31,6 +33,8 @@ export default function Tablero({
   setIsClickeable,
   rotationNumber,
   setRotationNumber,
+  fichasSelected,
+  setFichasSelected,
 }: TableroProps) {
   const [currentSquare, setCurrentSquare] = useState<
     { row: number; col: number }[]
@@ -42,7 +46,7 @@ export default function Tablero({
   });
 
   const rotationStatus = useRef<0 | 1 | 2 | 3 | 4>(0);
-
+  const originalCoords = useRef(Fichas[fichaSelected].coords);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const tableroHover = useRef<Array<Array<number>>>(
@@ -52,7 +56,6 @@ export default function Tablero({
   const tableroClicked = useRef<Array<Array<string>>>(
     Array(numCuadros).fill(Array(numCuadros).fill(""))
   );
-  const [fichasSelected, setFichasSelected] = useState(["B", "C", "D", "E"]);
   const rotatePiece = useCallback(() => {
     const numRotations = Fichas[fichaSelected].rotaciones;
     const rotationAngle =
@@ -81,6 +84,7 @@ export default function Tablero({
   useEffect(() => {
     rotationStatus.current = 0;
     setRotationNumber(0);
+    originalCoords.current = Fichas[fichaSelected].coords;
   }, [fichaSelected]);
 
   useEffect(() => {
@@ -301,6 +305,9 @@ export default function Tablero({
       } else {
         alert("Movimiento inválido");
       }
+      Fichas[fichaSelected].coords = originalCoords.current;
+      rotationStatus.current = 0;
+      setRotationNumber(0);
     }
     console.log(isClickeable);
     setTablero(convertToBinary(tableroClicked.current));
