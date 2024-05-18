@@ -34,29 +34,29 @@ const SideBoard = ({ setFicha, setIsClickeable }: SideBoardProps) => {
       </h2>
       <div className="bg-blue-side/50 flex flex-col border-2 border-gris/20 rounded-3xl place-items-center gap-4 p-4">
         <img
-          className="h-20 cursor-pointer hover:scale-125 transition-transform duration-200 ease-in-out"
+          className="h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-botton-red/40 transition-transform duration-200 ease-in-out"
           src={Pieza1}
           onClick={(e) => onHandleImageClick(e, "A")}
         />
         <img
-          className="h-20 cursor-pointer hover:scale-125 transition-transform duration-200 ease-in-out"
+          className="h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-botton-green/40 transition-transform duration-200 ease-in-out"
           src={Pieza2}
           onClick={(e) => onHandleImageClick(e, "B")}
         />
 
         <img
-          className="h-20 cursor-pointer hover:scale-125 transition-transform duration-200 ease-in-out"
+          className="h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-blue-900/20 transition-transform duration-200 ease-in-out"
           src={Pieza3}
           onClick={(e) => onHandleImageClick(e, "C")}
         />
 
         <img
-          className="h-20 cursor-pointer hover:scale-125 transition-transform duration-200 ease-in-out"
+          className="h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-orange-900/20 transition-transform duration-200 ease-in-out"
           src={Pieza4}
           onClick={(e) => onHandleImageClick(e, "D")}
         />
         <img
-          className="h-20 cursor-pointer hover:scale-125 transition-transform duration-200 ease-in-out"
+          className="h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-white/10 transition-transform duration-200 ease-in-out"
           src={Pieza5}
           onClick={(e) => onHandleImageClick(e, "E")}
         />
