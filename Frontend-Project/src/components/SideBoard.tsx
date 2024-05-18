@@ -33,40 +33,40 @@ const SideBoard = ({
     console.log(fichasSelected);
   };
   return (
-    <>
-      <h2 className="bg-blue-side/50 text-xl text-gris border-2 font-bold border-gris rounded-md py-4 px-4">
+    <div className="flex flex-col gap-3">
+      <h2 className="bg-blue-side/50 text-xl text-gris border-2 font-bold border-gris/20 rounded-full py-4 px-4">
         SELECCIONAR FICHA
       </h2>
-      <div className="bg-blue-side/50 flex flex-col border-2 border-gris rounded-md place-items-center gap-5 py-2 px-4 pb-10">
+      <div className="bg-blue-side/50 flex flex-col border-2 border-gris/20 rounded-3xl place-items-center gap-4 p-4">
         <img
-          className="size-28 cursor-pointer"
+          className="h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-botton-red/40 transition-transform duration-200 ease-in-out"
           src={Pieza1}
           onClick={(e) => onHandleImageClick(e, "A")}
         />
         <img
-          className="size-28 cursor-pointer"
+          className="h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-botton-green/40 transition-transform duration-200 ease-in-out"
           src={Pieza2}
           onClick={(e) => onHandleImageClick(e, "B")}
         />
 
         <img
-          className="w-14 h-28 cursor-pointer"
+          className="h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-blue-900/20 transition-transform duration-200 ease-in-out"
           src={Pieza3}
           onClick={(e) => onHandleImageClick(e, "C")}
         />
 
         <img
-          className="size-28 cursor-pointer"
+          className="h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-orange-900/20 transition-transform duration-200 ease-in-out"
           src={Pieza4}
           onClick={(e) => onHandleImageClick(e, "D")}
         />
         <img
-          className="size-28 cursor-pointer"
+          className="h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-white/10 transition-transform duration-200 ease-in-out"
           src={Pieza5}
           onClick={(e) => onHandleImageClick(e, "E")}
         />
       </div>
-    </>
+    </div>
   );
 };
 
