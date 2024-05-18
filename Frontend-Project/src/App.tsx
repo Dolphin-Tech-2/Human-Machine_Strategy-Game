@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Tablero from "./components/Tablero";
 import { postEstadoMeta } from "./api/rules.api";
 import SideBoard from "./components/SideBoard";
+import DifficultySideBoard from "./components/DifficultySideBoard";
 
 function App() {
   const [turnoMain, setTurnoMain] = useState<"JUGADOR" | "MÁQUINA">("JUGADOR");
@@ -12,6 +13,8 @@ function App() {
   );
   const [lastFicha, setLastFicha] = useState<"A" | "B" | "C" | "D" | "E">("A");
   const [rotationNumber, setRotationNumber] = useState<0 | 1 | 2 | 3 | 4>(0);
+  const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(null);
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -39,6 +42,9 @@ function App() {
   return (
     <>
       <div className="bg-background bg-[radial-gradient(ellipse_80%80%_at_50%-20%,rgba(120,119,198,0.2),rgba(255,255,255,0))] min-h-screen flex justify-center items-center gap-8">
+        <DifficultySideBoard 
+        selectedDifficulty={selectedDifficulty}
+        setSelectedDifficulty={setSelectedDifficulty}/>
         <div className="flex font-roboto flex-col text-gris font-bold justify-center items-center gap-5">
           <h1 className="bg-block-turn border-2 border-gris py-2 px-10 rounded-xl text-center text-2xl">
             TURNO: {turnoMain}
@@ -56,10 +62,10 @@ function App() {
               />
             </div>
             <div className="flex gap-2">
-              <h2 className="border-2 border-border-botton-red bg-botton-red/30 text-border-botton-red p-2.5 rounded-lg">
+              <h2 className="border-2 border-border-botton-red bg-botton-red/30 text-border-botton-red p-2.5 rounded-full">
                 PUNTAJE JUGADOR
               </h2>
-              <h2 className="border-2 border-border-botton-green bg-botton-green/30 text-border-botton-green p-2.5 rounded-lg">
+              <h2 className="border-2 border-border-botton-green bg-botton-green/30 text-border-botton-green p-2.5 rounded-full">
                 PUNTAJE MAQUINA
               </h2>
             </div>
@@ -80,12 +86,7 @@ function App() {
             />
           </div>
         </div>
-        <div className="flex flex-col gap-3">
-          <SideBoard
-            setFicha={setFichaMain}
-            setIsClickeable={setIsClickeable}
-          />
-        </div>
+        <SideBoard setFicha={setFichaMain} setIsClickeable={setIsClickeable} />
       </div>
     </>
   );

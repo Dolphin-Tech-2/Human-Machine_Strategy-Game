@@ -28,11 +28,11 @@ const SideBoard = ({ setFicha, setIsClickeable }: SideBoardProps) => {
     //console.log(piecesClicked);
   };
   return (
-    <>
-      <h2 className="bg-blue-side/50 text-xl text-gris border-2 font-bold border-gris rounded-md py-4 px-4">
+    <div className="flex flex-col gap-3">
+      <h2 className="bg-blue-side/50 text-xl text-gris border-2 font-bold border-gris/20 rounded-full py-4 px-4">
         SELECCIONAR FICHA
       </h2>
-      <div className="bg-blue-side/50 flex flex-col border-2 border-gris rounded-md place-items-center gap-4 p-4">
+      <div className="bg-blue-side/50 flex flex-col border-2 border-gris/20 rounded-3xl place-items-center gap-4 p-4">
         <img
           className="h-20 cursor-pointer hover:scale-125 transition-transform duration-200 ease-in-out"
           src={Pieza1}
@@ -61,7 +61,7 @@ const SideBoard = ({ setFicha, setIsClickeable }: SideBoardProps) => {
           onClick={(e) => onHandleImageClick(e, "E")}
         />
       </div>
-    </>
+    </div>
   );
 };
 
