@@ -4,7 +4,7 @@ import { postEstadoMeta } from "./api/rules.api";
 import SideBoard from "./components/SideBoard";
 
 function App() {
-  const [turnoMain, setTurnoMain] = useState<"X" | "Y">("X");
+  const [turnoMain, setTurnoMain] = useState<"JUGADOR" | "MÁQUINA">("JUGADOR");
   const [fichaMain, setFichaMain] = useState<"A" | "B" | "C" | "D" | "E">("A");
   const [numCuadros, setNumCuadros] = useState(8);
   const [currentTablero, setCurrentTablero] = useState<Array<Array<number>>>(
@@ -26,7 +26,11 @@ function App() {
         modo: rotationNumber,
       });
       if (response.victoria) {
-        alert(`Ganó el jugador ${turnoMain == "X" ? "Y" : "X"} - ${lastFicha}`);
+        alert(
+          `Ganó el jugador ${
+            turnoMain == "JUGADOR" ? "MÁQUINA" : "JUGADOR"
+          } - ${lastFicha}`
+        );
       }
     };
     fetchData();
@@ -34,18 +38,33 @@ function App() {
   const [isClickeable, setIsClickeable] = useState(true);
   return (
     <>
-      <div className="bg-gray-800 min-h-screen flex flex-row justify-center items-center gap-5">
-        <div className="flex flex-col justify-center items-center gap-5">
-          <h1 className="text-center">Turno de {turnoMain}</h1>
-          <input
-            type="number"
-            id="numCuadros"
-            name="numCuadros"
-            className="text-center w-40"
-            value={numCuadros}
-            onChange={handleInputChange}
-          />
-          <div className="flex flex-row justify-around gap-4">
+      <div className="bg-background bg-[radial-gradient(ellipse_80%80%_at_50%-20%,rgba(120,119,198,0.2),rgba(255,255,255,0))] min-h-screen flex justify-center items-center gap-8">
+        <div className="flex font-roboto flex-col text-gris font-bold justify-center items-center gap-5">
+          <h1 className="bg-block-turn border-2 border-gris py-2 px-10 rounded-xl text-center text-2xl">
+            TURNO: {turnoMain}
+          </h1>
+          <div className="flex gap-8 items-center">
+            <div>
+              <label htmlFor="numCuadros">TABLERO (n x n): </label>
+              <input
+                type="number"
+                id="numCuadros"
+                name="numCuadros"
+                className="bg-block-turn border-2 border-gris text-sm outline-none rounded-lg w-20 p-2.5"
+                value={numCuadros}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="flex gap-2">
+              <h2 className="border-2 border-border-botton-red bg-botton-red/30 text-border-botton-red p-2.5 rounded-lg">
+                PUNTAJE JUGADOR
+              </h2>
+              <h2 className="border-2 border-border-botton-green bg-botton-green/30 text-border-botton-green p-2.5 rounded-lg">
+                PUNTAJE MAQUINA
+              </h2>
+            </div>
+          </div>
+          <div className="flex justify-center gap-10">
             <Tablero
               turno={turnoMain}
               fichaSelected={fichaMain}
@@ -61,7 +80,7 @@ function App() {
             />
           </div>
         </div>
-        <div className="pt-20">
+        <div className="flex flex-col gap-3">
           <SideBoard
             setFicha={setFichaMain}
             setIsClickeable={setIsClickeable}
