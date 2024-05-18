@@ -256,7 +256,7 @@ export default function Tablero({
           }
         }
         setIsClickeable(false);
-        //setTurno(turno == "X" ? "Y" : "X");
+
         let fichasDisponibles = fichasSelected;
         if (fichasDisponibles.length === 0) {
           setFichasSelected(["A", "B", "C", "D", "E"]);
@@ -273,8 +273,9 @@ export default function Tablero({
         console.log("fichas disponibles", fichasDisponibles);
 
         console.log("parametro", fichasDisponibles);
+        setTurno(turno == "JUGADOR" ? "MÁQUINA" : "JUGADOR");
         try {
-          const responsePieza = await postGenerarJugadaAleatorio({
+          const responsePieza = await postGenerarJugadaMinMax({
             T: convertToBinary(tableroClicked.current),
             piezas_disponibles: fichasDisponibles,
           });
