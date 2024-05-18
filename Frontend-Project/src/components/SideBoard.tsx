@@ -8,18 +8,23 @@ interface SideBoardProps {
   setFicha: (ficha: "A" | "B" | "C" | "D" | "E") => void;
   setIsClickeable: (valor: boolean) => void;
   fichasSelected: string[];
+  setFichasSelected: (fichas: string[]) => void;
 }
 const SideBoard = ({
   setFicha,
   setIsClickeable,
   fichasSelected,
+  setFichasSelected,
 }: SideBoardProps) => {
   const onHandleImageClick = (
     e: React.MouseEvent,
     pieza: "A" | "B" | "C" | "D" | "E"
   ) => {
     console.log(pieza);
-
+    if (fichasSelected.length === 0) {
+      setFichasSelected(["A", "B", "C", "D", "E"]);
+    }
+    console.log("Fichas dentro del sideBoard", fichasSelected);
     if (fichasSelected.includes(pieza)) {
       setFicha(pieza);
       setIsClickeable(true);

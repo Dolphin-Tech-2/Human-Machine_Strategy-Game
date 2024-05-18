@@ -88,6 +88,7 @@ function App() {
             setFicha={setFichaMain}
             setIsClickeable={setIsClickeable}
             fichasSelected={fichasSelected}
+            setFichasSelected={setFichasSelected}
           />
         </div>
       </div>
