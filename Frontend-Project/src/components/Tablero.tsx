@@ -42,7 +42,7 @@ export default function Tablero({
   });
 
   const rotationStatus = useRef<0 | 1 | 2 | 3 | 4>(0);
-
+  const originalCoords = useRef(Fichas[fichaSelected].coords);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const tableroHover = useRef<Array<Array<number>>>(
@@ -81,6 +81,7 @@ export default function Tablero({
   useEffect(() => {
     rotationStatus.current = 0;
     setRotationNumber(0);
+    originalCoords.current = Fichas[fichaSelected].coords;
   }, [fichaSelected]);
 
   useEffect(() => {
@@ -301,6 +302,9 @@ export default function Tablero({
       } else {
         alert("Movimiento inválido");
       }
+      Fichas[fichaSelected].coords = originalCoords.current;
+      rotationStatus.current = 0;
+      setRotationNumber(0);
     }
     console.log(isClickeable);
     setTablero(convertToBinary(tableroClicked.current));
