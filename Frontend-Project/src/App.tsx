@@ -45,9 +45,10 @@ function App() {
       });
       if (response.victoria) {
         alert(
-          `No hay más movimientos, última jugada: ${
-            turnoMain == "JUGADOR" ? "MÁQUINA" : "JUGADOR"
-          } - ${lastFicha}`
+          `No hay más movimientos. ${
+            puntajeJugador > puntajeMaquina ? "Ganaste" : 
+            puntajeJugador == puntajeMaquina ? "Empate" : "Perdiste"
+          }`
         );
       }
     };
