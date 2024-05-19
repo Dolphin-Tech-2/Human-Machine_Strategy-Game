@@ -22,6 +22,7 @@ interface TableroProps {
   fichasSelected: string[];
   setFichasSelected: (fichas: string[]) => void;
   selectedDifficulty: string | null;
+  addPuntaje: (puntaje: number, turno: "JUGADOR" | "MÁQUINA") => void;
 }
 
 export default function Tablero({
@@ -39,6 +40,7 @@ export default function Tablero({
   fichasSelected,
   setFichasSelected,
   selectedDifficulty,
+  addPuntaje,
 }: TableroProps) {
   const [currentSquare, setCurrentSquare] = useState<
     { row: number; col: number }[]
@@ -115,6 +117,7 @@ export default function Tablero({
     setFichaPadre("A");
     setCurrentSquare([]);
     setIsClickeable(true);
+    setTurno("JUGADOR");
   }, [numCuadros, selectedDifficulty]);
 
   useEffect(() => {
@@ -235,7 +238,6 @@ export default function Tablero({
 
   const handleSquareClick = async () => {
     const tableroBinario = convertToBinary(tableroClicked.current);
-    console.log(rotationNumber);
     const response = await postColocarPieza(
       {
         T: tableroBinario,
@@ -252,9 +254,12 @@ export default function Tablero({
       tableroClicked.current !== null &&
       isClickeable === true
     ) {
+      let oldTablero = convertToBinary(tableroClicked.current);
       tableroClicked.current = JSON.parse(
         JSON.stringify(tableroClicked.current)
       );
+
+
       setLastSquare(currentSquare[currentSquare.length - 1]);
       if (response.colocado) {
         for (let i = 0; i < numCuadros; i++) {
@@ -265,6 +270,10 @@ export default function Tablero({
           }
         }
         setIsClickeable(false);
+        // Calculando puntaje
+        let newTablero = convertToBinary(tableroClicked.current);
+        let completedRows = getCompletedRows(oldTablero, newTablero);
+        addPuntaje(completedRows, "JUGADOR");
 
         let fichasDisponibles = fichasSelected;
         if (fichasDisponibles.length === 0) {
@@ -285,6 +294,9 @@ export default function Tablero({
         setTurno(turno == "JUGADOR" ? "MÁQUINA" : "JUGADOR");
         console.log(selectedDifficulty);
 
+        oldTablero = convertToBinary(tableroClicked.current);
+
+        setTurno("MÁQUINA");
         switch (selectedDifficulty) {
           case "Fácil":
             try {
@@ -392,6 +404,10 @@ export default function Tablero({
             }
             break;
         }
+        setTurno("JUGADOR");
+        newTablero = convertToBinary(tableroClicked.current);
+        completedRows = getCompletedRows(oldTablero, newTablero);
+        addPuntaje(completedRows, "MÁQUINA");
       } else {
         alert("Movimiento inválido");
       }
@@ -403,6 +419,26 @@ export default function Tablero({
     setTablero(convertToBinary(tableroClicked.current));
     setFichaPadre(fichaSelected);
   };
+
+  function getCompletedRows(
+    oldTablero: Array<Array<number>>,
+    newTablero: Array<Array<number>>
+  ): number {
+    let completedRows = 0;
+
+    // Helper function to check if a row is complete
+    const isRowComplete = (row: Array<number>): boolean => {
+      return row.every((cell) => cell !== 0);
+    };
+
+    for (let i = 0; i < oldTablero.length; i++) {
+      if (!isRowComplete(oldTablero[i]) && isRowComplete(newTablero[i])) {
+        completedRows++;
+      }
+    }
+
+    return completedRows;
+  }
 
   function convertToBinary(
     tablero: Array<Array<string>>
