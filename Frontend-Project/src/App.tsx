@@ -26,12 +26,12 @@ function App() {
     const fetchData = async () => {
       const response = await postEstadoMeta({
         T: currentTablero,
-        pieza: lastFicha,
+        piezas_disponibles: fichasSelected.length === 0 ? ["A", "B", "C", "D", "E"] : fichasSelected,
         modo: rotationNumber,
       });
       if (response.victoria) {
         alert(
-          `Ganó el jugador ${
+          `No hay más movimientos, última jugada: ${
             turnoMain == "JUGADOR" ? "MÁQUINA" : "JUGADOR"
           } - ${lastFicha}`
         );

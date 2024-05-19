@@ -73,9 +73,13 @@ def victoria(request):
     data = request.data
 
     T = data['T']
-    pieza = data['pieza']
+    piezas_disponibles = data['piezas_disponibles']
 
-    victoria = GameClass.verificar_victoria(T, pieza)
+    victoria = True
+    for pieza in piezas_disponibles:
+        if not GameClass.verificar_victoria(T, pieza):
+            victoria = False
+            break
     
     return Response(data= {'victoria': victoria}, status= status.HTTP_200_OK)
 
