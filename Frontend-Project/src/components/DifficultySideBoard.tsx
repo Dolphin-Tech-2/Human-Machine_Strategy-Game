@@ -1,9 +1,11 @@
 interface DifficultySideBoardProps {
-    setSelectedDifficulty: (difficulty: string) => void;
-    selectedDifficulty: string | null;
+  setSelectedDifficulty: (difficulty: string) => void;
+  selectedDifficulty: string | null;
 }
-export default function DifficultySideBoard( { setSelectedDifficulty, selectedDifficulty }: DifficultySideBoardProps) {
-
+export default function DifficultySideBoard({
+  setSelectedDifficulty,
+  selectedDifficulty,
+}: DifficultySideBoardProps) {
   const handleButtonClick = (difficulty: string) => {
     setSelectedDifficulty(difficulty);
   };
@@ -11,10 +13,12 @@ export default function DifficultySideBoard( { setSelectedDifficulty, selectedDi
   const buttonClass = (difficulty: string) =>
     `rounded-full py-2 px-4 w-full text-center font-medium cursor-pointer transition-colors ${
       selectedDifficulty === difficulty
-        ? difficulty === 'Fácil' ? 'border-2 border-green-500'
-        : difficulty === 'Intermedio' ? 'border-2 border-yellow-500'
-        : 'border-2 border-red-500'
-        : 'border-transparent'
+        ? difficulty === "Fácil"
+          ? "border-2 border-green-500"
+          : difficulty === "Intermedio"
+          ? "border-2 border-yellow-500"
+          : "border-2 border-red-500"
+        : "border-transparent"
     }`;
 
   return (
@@ -24,20 +28,26 @@ export default function DifficultySideBoard( { setSelectedDifficulty, selectedDi
       </h2>
       <div className="bg-blue-side/30 flex flex-col border-2 border-gris/20 rounded-3xl items-center gap-3 p-6 shadow-lg">
         <button
-          className={`${buttonClass('Fácil')} bg-green-700/50 text-green-500 hover:bg-green-700/90`}
-          onClick={() => handleButtonClick('Fácil')}
+          className={`${buttonClass(
+            "Fácil"
+          )} bg-green-700/50 text-green-500 hover:bg-green-700/90`}
+          onClick={() => handleButtonClick("Fácil")}
         >
           Fácil - Aleatorio
         </button>
         <button
-          className={`${buttonClass('Intermedio')} bg-yellow-700/30 text-yellow-500 hover:bg-yellow-700/90`}
-          onClick={() => handleButtonClick('Intermedio')}
+          className={`${buttonClass(
+            "Intermedio"
+          )} bg-yellow-700/30 text-yellow-500 hover:bg-yellow-700/90`}
+          onClick={() => handleButtonClick("Intermedio")}
         >
           Intermedio - Primero el mejor
         </button>
         <button
-          className={`${buttonClass('Difícil')} bg-red-700/30 text-red-500 hover:bg-red-700/90`}
-          onClick={() => handleButtonClick('Difícil')}
+          className={`${buttonClass(
+            "Difícil"
+          )} bg-red-700/30 text-red-500 hover:bg-red-700/90`}
+          onClick={() => handleButtonClick("Difícil")}
         >
           Difícil - MinMax
         </button>

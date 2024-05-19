@@ -14,7 +14,7 @@ function App() {
   const [lastFicha, setLastFicha] = useState<"A" | "B" | "C" | "D" | "E">("A");
   const [rotationNumber, setRotationNumber] = useState<0 | 1 | 2 | 3 | 4>(0);
   const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(
-    null
+    "Fácil"
   );
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +40,13 @@ function App() {
     fetchData();
   }, [currentTablero]);
   const [isClickeable, setIsClickeable] = useState(true);
-  const [fichasSelected, setFichasSelected] = useState(["B", "C", "D", "E"]);
+  const [fichasSelected, setFichasSelected] = useState([
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+  ]);
   return (
     <>
       <div className="bg-background bg-[radial-gradient(ellipse_80%80%_at_50%-20%,rgba(120,119,198,0.2),rgba(255,255,255,0))] min-h-screen flex justify-center items-center gap-8">
@@ -88,6 +94,7 @@ function App() {
               setRotationNumber={setRotationNumber}
               fichasSelected={fichasSelected}
               setFichasSelected={setFichasSelected}
+              selectedDifficulty={selectedDifficulty}
             />
           </div>
         </div>
