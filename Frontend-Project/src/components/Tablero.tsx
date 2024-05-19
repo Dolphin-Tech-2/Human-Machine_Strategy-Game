@@ -373,6 +373,7 @@ export default function Tablero({
               const responsePieza = await postGenerarJugadaMinMax({
                 T: convertToBinary(tableroClicked.current),
                 piezas_disponibles: fichasDisponibles,
+                profundidad: 2,
               });
               console.log(responsePieza);
               fichasDisponibles = fichasDisponibles.filter(

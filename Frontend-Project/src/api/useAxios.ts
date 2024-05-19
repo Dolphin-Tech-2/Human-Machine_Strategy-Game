@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const instanseAxios = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: import.meta.env.VITE_API,
   headers: {
     "Content-Type": "application/json",
   },

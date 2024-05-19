@@ -17,7 +17,6 @@ const SideBoard = ({
   setFichasSelected,
 }: SideBoardProps) => {
   const onHandleImageClick = (
-    e: React.MouseEvent,
     pieza: "A" | "B" | "C" | "D" | "E"
   ) => {
     console.log(pieza);
@@ -41,29 +40,29 @@ const SideBoard = ({
         <img
           className={`h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-botton-red/40 transition-transform duration-200 ease-in-out ${fichasSelected.includes("A") ? "opacity-100" : "opacity-20"}`}
           src={Pieza1}
-          onClick={(e) => onHandleImageClick(e, "A")}
+          onClick={() => onHandleImageClick("A")}
         />
         <img
           className={`h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-botton-red/40 transition-transform duration-200 ease-in-out ${fichasSelected.includes("B") ? "opacity-100" : "opacity-20"}`}
           src={Pieza2}
-          onClick={(e) => onHandleImageClick(e, "B")}
+          onClick={() => onHandleImageClick("B")}
         />
 
         <img
           className={`h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-botton-red/40 transition-transform duration-200 ease-in-out ${fichasSelected.includes("C") ? "opacity-100" : "opacity-20"}`}
           src={Pieza3}
-          onClick={(e) => onHandleImageClick(e, "C")}
+          onClick={() => onHandleImageClick("C")}
         />
 
         <img
           className={`h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-botton-red/40 transition-transform duration-200 ease-in-out ${fichasSelected.includes("D") ? "opacity-100" : "opacity-20"}`}
           src={Pieza4}
-          onClick={(e) => onHandleImageClick(e, "D")}
+          onClick={() => onHandleImageClick("D")}
         />
         <img
           className={`h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-botton-red/40 transition-transform duration-200 ease-in-out ${fichasSelected.includes("E") ? "opacity-100" : "opacity-20"}`}
           src={Pieza5}
-          onClick={(e) => onHandleImageClick(e, "E")}
+          onClick={() => onHandleImageClick("E")}
         />
       </div>
     </div>
