@@ -78,6 +78,8 @@ class GameClass:
 
     @staticmethod
     def minmax(T, profundidad, maximizando, piezas_disponibles, alpha=float('-inf'), beta=float('inf')):
+        if piezas_disponibles == []:
+            piezas_disponibles = ['A', 'B', 'C', 'D', 'E']
         if profundidad == 0 or all(GameClass.verificar_victoria(T, pieza) for pieza in piezas_disponibles):
             return GameClass.evaluar_tablero(T), None
 
@@ -87,11 +89,12 @@ class GameClass:
             max_eval = float('-inf')
             for pieza_actual in piezas_disponibles:
                 movimientos_posibles = GameClass.generar_movimientos_posibles(T, pieza_actual)
+                piezas_sin_actual = [pieza for pieza in piezas_disponibles if pieza != pieza_actual]
                 for movimiento in movimientos_posibles:
                     tablero_copia = [fila[:] for fila in T]
                     pieza, i, j, modo = movimiento
                     GameClass.colocar_pieza(pieza, tablero_copia, i, j, modo)
-                    eval, _ = GameClass.minmax(tablero_copia, profundidad - 1, False, piezas_disponibles, alpha, beta)
+                    eval, _ = GameClass.minmax(tablero_copia, profundidad - 1, False, piezas_sin_actual, alpha, beta)
                     if eval > max_eval:
                         max_eval = eval
                         mejor_movimiento = (pieza, i, j, modo)
@@ -103,11 +106,12 @@ class GameClass:
             min_eval = float('inf')
             for pieza_actual in piezas_disponibles:
                 movimientos_posibles = GameClass.generar_movimientos_posibles(T, pieza_actual)
+                piezas_sin_actual = [pieza for pieza in piezas_disponibles if pieza != pieza_actual]
                 for movimiento in movimientos_posibles:
                     tablero_copia = [fila[:] for fila in T]
                     pieza, i, j, modo = movimiento
                     GameClass.colocar_pieza(pieza, tablero_copia, i, j, modo)
-                    eval, _ = GameClass.minmax(tablero_copia, profundidad - 1, True, piezas_disponibles, alpha, beta)
+                    eval, _ = GameClass.minmax(tablero_copia, profundidad - 1, True, piezas_sin_actual, alpha, beta)
                     if eval < min_eval:
                         min_eval = eval
                         mejor_movimiento = (pieza, i, j, modo)
