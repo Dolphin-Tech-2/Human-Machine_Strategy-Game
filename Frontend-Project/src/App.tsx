@@ -48,7 +48,7 @@ function App() {
           `No hay más movimientos. ${
             puntajeJugador > puntajeMaquina ? "Ganaste" : 
             puntajeJugador == puntajeMaquina ? "Empate" : "Perdiste"
-          }`
+          }. Ultima ficha: ${lastFicha}`
         );
       }
     };
