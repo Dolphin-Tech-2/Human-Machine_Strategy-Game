@@ -3,6 +3,7 @@ import Fichas from "../utils/fichas.ts";
 import {
   postColocarPieza,
   postGenerarJugadaAleatorio,
+  postGenerarJugadaGreedy,
   postGenerarJugadaMinMax,
 } from "../api/rules.api.ts";
 
@@ -20,6 +21,7 @@ interface TableroProps {
   setRotationNumber: (valor: 0 | 1 | 2 | 3 | 4) => void;
   fichasSelected: string[];
   setFichasSelected: (fichas: string[]) => void;
+  selectedDifficulty: string | null;
 }
 
 export default function Tablero({
@@ -29,12 +31,14 @@ export default function Tablero({
   numCuadros = 8,
   setTablero,
   setFichaPadre,
+  setFicha,
   isClickeable,
   setIsClickeable,
   rotationNumber,
   setRotationNumber,
   fichasSelected,
   setFichasSelected,
+  selectedDifficulty,
 }: TableroProps) {
   const [currentSquare, setCurrentSquare] = useState<
     { row: number; col: number }[]
@@ -106,7 +110,12 @@ export default function Tablero({
     tableroHover.current.fill(Array(numCuadros).fill(0));
     tableroClicked.current = Array(numCuadros);
     tableroClicked.current.fill(Array(numCuadros).fill(""));
-  }, [numCuadros]);
+    setFichasSelected(["A", "B", "C", "D", "E"]);
+    setFicha("A");
+    setFichaPadre("A");
+    setCurrentSquare([]);
+    setIsClickeable(true);
+  }, [numCuadros, selectedDifficulty]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -274,34 +283,114 @@ export default function Tablero({
 
         console.log("parametro", fichasDisponibles);
         setTurno(turno == "JUGADOR" ? "MÁQUINA" : "JUGADOR");
-        try {
-          const responsePieza = await postGenerarJugadaMinMax({
-            T: convertToBinary(tableroClicked.current),
-            piezas_disponibles: fichasDisponibles,
-          });
-          console.log(responsePieza);
-          fichasDisponibles = fichasDisponibles.filter(
-            (ficha) => ficha !== responsePieza.mejor_movimiento[0]
-          );
-          console.log("fichas disponibles MAQUINA", fichasDisponibles);
-          setFichasSelected(fichasDisponibles);
-          if (responsePieza.tablero !== null) {
-            for (let i = 0; i < numCuadros; i++) {
-              for (let j = 0; j < numCuadros; j++) {
-                if (
-                  responsePieza.tablero[i][j] === 1 &&
-                  tableroClicked.current[i][j] === ""
-                ) {
-                  tableroClicked.current[i][j] =
-                    Fichas[
-                      responsePieza.mejor_movimiento[0] as keyof typeof Fichas
-                    ].color;
+        console.log(selectedDifficulty);
+
+        switch (selectedDifficulty) {
+          case "Fácil":
+            try {
+              const responsePieza = await postGenerarJugadaAleatorio({
+                T: convertToBinary(tableroClicked.current),
+                piezas_disponibles: fichasDisponibles,
+              });
+              console.log(responsePieza);
+              fichasDisponibles = fichasDisponibles.filter(
+                (ficha) => ficha !== responsePieza.mejor_movimiento[0]
+              );
+              console.log("fichas disponibles MAQUINA", fichasDisponibles);
+              setFichasSelected(fichasDisponibles);
+              if (
+                responsePieza.tablero !== null &&
+                selectedDifficulty === "Fácil"
+              ) {
+                for (let i = 0; i < numCuadros; i++) {
+                  for (let j = 0; j < numCuadros; j++) {
+                    if (
+                      responsePieza.tablero[i][j] === 1 &&
+                      tableroClicked.current[i][j] === ""
+                    ) {
+                      tableroClicked.current[i][j] =
+                        Fichas[
+                          responsePieza
+                            .mejor_movimiento[0] as keyof typeof Fichas
+                        ].color;
+                    }
+                  }
                 }
               }
+            } catch (e) {
+              console.log(e);
             }
-          }
-        } catch (e) {
-          console.log(e);
+            break;
+          case "Intermedio":
+            try {
+              const responsePieza = await postGenerarJugadaGreedy({
+                T: convertToBinary(tableroClicked.current),
+                piezas_disponibles: fichasDisponibles,
+              });
+              console.log(responsePieza);
+              fichasDisponibles = fichasDisponibles.filter(
+                (ficha) => ficha !== responsePieza.mejor_movimiento[0]
+              );
+              console.log("fichas disponibles MAQUINA", fichasDisponibles);
+              setFichasSelected(fichasDisponibles);
+              if (
+                responsePieza.tablero !== null &&
+                selectedDifficulty === "Intermedio"
+              ) {
+                for (let i = 0; i < numCuadros; i++) {
+                  for (let j = 0; j < numCuadros; j++) {
+                    if (
+                      responsePieza.tablero[i][j] === 1 &&
+                      tableroClicked.current[i][j] === ""
+                    ) {
+                      tableroClicked.current[i][j] =
+                        Fichas[
+                          responsePieza
+                            .mejor_movimiento[0] as keyof typeof Fichas
+                        ].color;
+                    }
+                  }
+                }
+              }
+            } catch (e) {
+              console.log(e);
+            }
+            break;
+          case "Difícil":
+            try {
+              const responsePieza = await postGenerarJugadaMinMax({
+                T: convertToBinary(tableroClicked.current),
+                piezas_disponibles: fichasDisponibles,
+              });
+              console.log(responsePieza);
+              fichasDisponibles = fichasDisponibles.filter(
+                (ficha) => ficha !== responsePieza.mejor_movimiento[0]
+              );
+              console.log("fichas disponibles MAQUINA", fichasDisponibles);
+              setFichasSelected(fichasDisponibles);
+              if (
+                responsePieza.tablero !== null &&
+                selectedDifficulty === "Difícil"
+              ) {
+                for (let i = 0; i < numCuadros; i++) {
+                  for (let j = 0; j < numCuadros; j++) {
+                    if (
+                      responsePieza.tablero[i][j] === 1 &&
+                      tableroClicked.current[i][j] === ""
+                    ) {
+                      tableroClicked.current[i][j] =
+                        Fichas[
+                          responsePieza
+                            .mejor_movimiento[0] as keyof typeof Fichas
+                        ].color;
+                    }
+                  }
+                }
+              }
+            } catch (e) {
+              console.log(e);
+            }
+            break;
         }
       } else {
         alert("Movimiento inválido");
