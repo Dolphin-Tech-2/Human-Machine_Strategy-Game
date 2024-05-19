@@ -1,0 +1,4 @@
+/env
+/apps/reglas/__pycache__
+/backend/__pycache__
+/apps/reglas/migrations/__pycache__
