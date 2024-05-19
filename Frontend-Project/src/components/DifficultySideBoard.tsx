@@ -1,13 +1,16 @@
 interface DifficultySideBoardProps {
   setSelectedDifficulty: (difficulty: string) => void;
   selectedDifficulty: string | null;
+  resetPuntajes: () => void;
 }
 export default function DifficultySideBoard({
   setSelectedDifficulty,
   selectedDifficulty,
+  resetPuntajes,
 }: DifficultySideBoardProps) {
   const handleButtonClick = (difficulty: string) => {
     setSelectedDifficulty(difficulty);
+    resetPuntajes();
   };
 
   const buttonClass = (difficulty: string) =>

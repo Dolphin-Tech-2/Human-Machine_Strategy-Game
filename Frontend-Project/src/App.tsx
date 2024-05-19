@@ -17,11 +17,25 @@ function App() {
     "Fácil"
   );
 
+  const [puntajeJugador, setPuntajeJugador] = useState(0);
+  const [puntajeMaquina, setPuntajeMaquina] = useState(0);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setNumCuadros(parseInt(value));
   };
 
+  const addPuntaje = (puntaje: number, turno: "JUGADOR" | "MÁQUINA") => {
+    if (turno === "JUGADOR") {
+      setPuntajeJugador(puntajeJugador + puntaje);
+    } else {
+      setPuntajeMaquina(puntajeMaquina + puntaje);
+    }
+  }
+  const resetPuntajes = () => {
+    setPuntajeJugador(0);
+    setPuntajeMaquina(0);
+  }
   useEffect(() => {
     const fetchData = async () => {
       const response = await postEstadoMeta({
@@ -51,6 +65,7 @@ function App() {
     <>
       <div className="bg-background bg-[radial-gradient(ellipse_80%80%_at_50%-20%,rgba(120,119,198,0.2),rgba(255,255,255,0))] min-h-screen flex justify-center items-center gap-8">
         <DifficultySideBoard
+        resetPuntajes={resetPuntajes}
           selectedDifficulty={selectedDifficulty}
           setSelectedDifficulty={setSelectedDifficulty}
         />
@@ -72,15 +87,16 @@ function App() {
             </div>
             <div className="flex gap-2">
               <h2 className="border-2 border-border-botton-red bg-botton-red/30 text-border-botton-red p-2.5 rounded-full">
-                PUNTAJE JUGADOR
+                Humano: {puntajeJugador}
               </h2>
               <h2 className="border-2 border-border-botton-green bg-botton-green/30 text-border-botton-green p-2.5 rounded-full">
-                PUNTAJE MAQUINA
+                Maquina: {puntajeMaquina}
               </h2>
             </div>
           </div>
           <div className="flex justify-center gap-10">
             <Tablero
+              addPuntaje={addPuntaje}
               turno={turnoMain}
               fichaSelected={fichaMain}
               setTurno={setTurnoMain}
