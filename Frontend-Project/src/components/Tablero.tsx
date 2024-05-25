@@ -52,7 +52,7 @@ export default function Tablero({
   });
 
   const [refreshTablero, setRefreshTablero] = useState(false);
-  
+
   const [isLoading, setIsLoading] = useState(false);
 
   const rotationStatus = useRef<0 | 1 | 2 | 3 | 4>(0);
@@ -265,7 +265,6 @@ export default function Tablero({
       tableroClicked.current = JSON.parse(
         JSON.stringify(tableroClicked.current)
       );
-
 
       setLastSquare(currentSquare[currentSquare.length - 1]);
       if (response.colocado) {
