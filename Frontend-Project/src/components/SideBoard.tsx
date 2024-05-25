@@ -16,9 +16,7 @@ const SideBoard = ({
   fichasSelected,
   setFichasSelected,
 }: SideBoardProps) => {
-  const onHandleImageClick = (
-    pieza: "A" | "B" | "C" | "D" | "E"
-  ) => {
+  const onHandleImageClick = (pieza: "A" | "B" | "C" | "D" | "E") => {
     console.log(pieza);
     if (fichasSelected.length === 0) {
       setFichasSelected(["A", "B", "C", "D", "E"]);
@@ -38,29 +36,39 @@ const SideBoard = ({
       </h2>
       <div className="bg-blue-side/50 flex flex-col border-2 border-gris/20 rounded-3xl place-items-center gap-4 p-4">
         <img
-          className={`h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-botton-red/40 transition-transform duration-200 ease-in-out ${fichasSelected.includes("A") ? "opacity-100" : "opacity-20"}`}
+          className={`h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-botton-red/40 transition-transform duration-200 ease-in-out ${
+            fichasSelected.includes("A") ? "opacity-100" : "opacity-20"
+          }`}
           src={Pieza1}
           onClick={() => onHandleImageClick("A")}
         />
         <img
-          className={`h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-botton-red/40 transition-transform duration-200 ease-in-out ${fichasSelected.includes("B") ? "opacity-100" : "opacity-20"}`}
+          className={`h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-botton-red/40 transition-transform duration-200 ease-in-out ${
+            fichasSelected.includes("B") ? "opacity-100" : "opacity-20"
+          }`}
           src={Pieza2}
           onClick={() => onHandleImageClick("B")}
         />
 
         <img
-          className={`h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-botton-red/40 transition-transform duration-200 ease-in-out ${fichasSelected.includes("C") ? "opacity-100" : "opacity-20"}`}
+          className={`h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-botton-red/40 transition-transform duration-200 ease-in-out ${
+            fichasSelected.includes("C") ? "opacity-100" : "opacity-20"
+          }`}
           src={Pieza3}
           onClick={() => onHandleImageClick("C")}
         />
 
         <img
-          className={`h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-botton-red/40 transition-transform duration-200 ease-in-out ${fichasSelected.includes("D") ? "opacity-100" : "opacity-20"}`}
+          className={`h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-botton-red/40 transition-transform duration-200 ease-in-out ${
+            fichasSelected.includes("D") ? "opacity-100" : "opacity-20"
+          }`}
           src={Pieza4}
           onClick={() => onHandleImageClick("D")}
         />
         <img
-          className={`h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-botton-red/40 transition-transform duration-200 ease-in-out ${fichasSelected.includes("E") ? "opacity-100" : "opacity-20"}`}
+          className={`h-20 rounded-xl cursor-pointer hover:scale-125 hover:bg-botton-red/40 transition-transform duration-200 ease-in-out ${
+            fichasSelected.includes("E") ? "opacity-100" : "opacity-20"
+          }`}
           src={Pieza5}
           onClick={() => onHandleImageClick("E")}
         />

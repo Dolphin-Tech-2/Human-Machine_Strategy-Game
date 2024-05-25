@@ -51,6 +51,10 @@ export default function Tablero({
     col: 0,
   });
 
+  const [refreshTablero, setRefreshTablero] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const rotationStatus = useRef<0 | 1 | 2 | 3 | 4>(0);
   const originalCoords = useRef(Fichas[fichaSelected].coords);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -97,6 +101,7 @@ export default function Tablero({
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key === " ") {
         rotatePiece();
+        setRefreshTablero(!refreshTablero);
       }
     };
 
@@ -196,7 +201,7 @@ export default function Tablero({
         }
       }
     }
-  }, [numCuadros, currentSquare, lastSquare]);
+  }, [numCuadros, currentSquare, lastSquare, refreshTablero]);
 
   const verifyBorder = (row: number, col: number) => {
     let status = true;
@@ -217,6 +222,7 @@ export default function Tablero({
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (isLoading) return;
     const canvas = canvasRef.current;
     const rect = canvas?.getBoundingClientRect();
     const x = e.clientX - rect!.left;
@@ -237,6 +243,7 @@ export default function Tablero({
   };
 
   const handleSquareClick = async () => {
+    setIsLoading(true);
     const tableroBinario = convertToBinary(tableroClicked.current);
     const response = await postColocarPieza(
       {
@@ -258,7 +265,6 @@ export default function Tablero({
       tableroClicked.current = JSON.parse(
         JSON.stringify(tableroClicked.current)
       );
-
 
       setLastSquare(currentSquare[currentSquare.length - 1]);
       if (response.colocado) {
@@ -295,7 +301,7 @@ export default function Tablero({
         console.log(selectedDifficulty);
 
         oldTablero = convertToBinary(tableroClicked.current);
-
+        setIsLoading(false);
         setTurno("MÁQUINA");
         switch (selectedDifficulty) {
           case "Fácil":
@@ -410,6 +416,7 @@ export default function Tablero({
         completedRows = getCompletedRows(oldTablero, newTablero);
         addPuntaje(completedRows, "MÁQUINA");
       } else {
+        setIsLoading(false);
         alert("Movimiento inválido");
       }
       Fichas[fichaSelected].coords = originalCoords.current;
@@ -419,6 +426,7 @@ export default function Tablero({
     console.log(isClickeable);
     setTablero(convertToBinary(tableroClicked.current));
     setFichaPadre(fichaSelected);
+    setRefreshTablero(!refreshTablero);
   };
 
   function getCompletedRows(
