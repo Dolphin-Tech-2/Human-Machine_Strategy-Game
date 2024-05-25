@@ -31,23 +31,29 @@ function App() {
     } else {
       setPuntajeMaquina(puntajeMaquina + puntaje);
     }
-  }
+  };
   const resetPuntajes = () => {
     setPuntajeJugador(0);
     setPuntajeMaquina(0);
-  }
+  };
   useEffect(() => {
     const fetchData = async () => {
       const response = await postEstadoMeta({
         T: currentTablero,
-        piezas_disponibles: fichasSelected.length === 0 ? ["A", "B", "C", "D", "E"] : fichasSelected,
+        piezas_disponibles:
+          fichasSelected.length === 0
+            ? ["A", "B", "C", "D", "E"]
+            : fichasSelected,
         modo: rotationNumber,
       });
       if (response.victoria) {
         alert(
           `No hay más movimientos. ${
-            puntajeJugador > puntajeMaquina ? "Ganaste" : 
-            puntajeJugador == puntajeMaquina ? "Empate" : "Perdiste"
+            puntajeJugador > puntajeMaquina
+              ? "Ganaste"
+              : puntajeJugador == puntajeMaquina
+              ? "Empate"
+              : "Perdiste"
           }. Ultima ficha: ${lastFicha}`
         );
       }
@@ -66,12 +72,18 @@ function App() {
     <>
       <div className="bg-background bg-[radial-gradient(ellipse_80%80%_at_50%-20%,rgba(120,119,198,0.2),rgba(255,255,255,0))] min-h-screen flex justify-center items-center gap-8">
         <DifficultySideBoard
-        resetPuntajes={resetPuntajes}
+          resetPuntajes={resetPuntajes}
           selectedDifficulty={selectedDifficulty}
           setSelectedDifficulty={setSelectedDifficulty}
         />
         <div className="flex font-roboto flex-col text-gris font-bold justify-center items-center gap-5">
-          <h1 className="bg-block-turn border-2 border-gris py-2 px-10 rounded-xl text-center text-2xl">
+          <h1
+            className={`bg-block-turn border-2 transition-colors duration-200 ${
+              turnoMain == "JUGADOR"
+                ? "border-indigo-400 text-indigo-400"
+                : "border-emerald-400 text-emerald-400"
+            } py-2 px-10 rounded-xl text-center text-2xl`}
+          >
             TURNO: {turnoMain}
           </h1>
           <div className="flex gap-8 items-center">
@@ -87,10 +99,10 @@ function App() {
               />
             </div>
             <div className="flex gap-2">
-              <h2 className="border-2 border-border-botton-red bg-botton-red/30 text-border-botton-red p-2.5 rounded-full">
+              <h2 className="border-2 border-indigo-400 text-indigo-400 bg-indigo-400/30 p-2.5 rounded-full">
                 Humano: {puntajeJugador}
               </h2>
-              <h2 className="border-2 border-border-botton-green bg-botton-green/30 text-border-botton-green p-2.5 rounded-full">
+              <h2 className="border-2 border-emerald-400 text-emerald-400 bg-emerald-400/30 p-2.5 rounded-full">
                 Maquina: {puntajeMaquina}
               </h2>
             </div>

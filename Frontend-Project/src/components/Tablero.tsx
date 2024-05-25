@@ -50,6 +50,8 @@ export default function Tablero({
     row: 0,
     col: 0,
   });
+
+  const [refreshTablero, setRefreshTablero] = useState(false);
   
   const [isLoading, setIsLoading] = useState(false);
 
@@ -99,6 +101,7 @@ export default function Tablero({
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key === " ") {
         rotatePiece();
+        setRefreshTablero(!refreshTablero);
       }
     };
 
@@ -198,7 +201,7 @@ export default function Tablero({
         }
       }
     }
-  }, [numCuadros, currentSquare, lastSquare]);
+  }, [numCuadros, currentSquare, lastSquare, refreshTablero]);
 
   const verifyBorder = (row: number, col: number) => {
     let status = true;
@@ -414,6 +417,7 @@ export default function Tablero({
         completedRows = getCompletedRows(oldTablero, newTablero);
         addPuntaje(completedRows, "MÁQUINA");
       } else {
+        setIsLoading(false);
         alert("Movimiento inválido");
       }
       Fichas[fichaSelected].coords = originalCoords.current;
@@ -423,6 +427,7 @@ export default function Tablero({
     console.log(isClickeable);
     setTablero(convertToBinary(tableroClicked.current));
     setFichaPadre(fichaSelected);
+    setRefreshTablero(!refreshTablero);
   };
 
   function getCompletedRows(
