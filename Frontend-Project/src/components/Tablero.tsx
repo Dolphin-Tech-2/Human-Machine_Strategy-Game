@@ -245,6 +245,10 @@ export default function Tablero({
   const handleSquareClick = async () => {
     setIsLoading(true);
     const tableroBinario = convertToBinary(tableroClicked.current);
+    if(currentSquare[currentSquare.length - 1] === undefined) {
+      setIsLoading(false);
+      return;
+    }
     const response = await postColocarPieza(
       {
         T: tableroBinario,
