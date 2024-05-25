@@ -50,6 +50,8 @@ export default function Tablero({
     row: 0,
     col: 0,
   });
+  
+  const [isLoading, setIsLoading] = useState(false);
 
   const rotationStatus = useRef<0 | 1 | 2 | 3 | 4>(0);
   const originalCoords = useRef(Fichas[fichaSelected].coords);
@@ -217,6 +219,7 @@ export default function Tablero({
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (isLoading) return;
     const canvas = canvasRef.current;
     const rect = canvas?.getBoundingClientRect();
     const x = e.clientX - rect!.left;
@@ -237,6 +240,7 @@ export default function Tablero({
   };
 
   const handleSquareClick = async () => {
+    setIsLoading(true);
     const tableroBinario = convertToBinary(tableroClicked.current);
     const response = await postColocarPieza(
       {
@@ -295,7 +299,7 @@ export default function Tablero({
         console.log(selectedDifficulty);
 
         oldTablero = convertToBinary(tableroClicked.current);
-
+        setIsLoading(false);
         setTurno("MÁQUINA");
         switch (selectedDifficulty) {
           case "Fácil":
